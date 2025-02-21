@@ -3,13 +3,13 @@ import 'package:mafiagame/screens/setup_screen.dart';
 
 class ModeSelector extends StatelessWidget {
   final int minPlayer, maxPlayer;
-  final bool isBasic;
+  final bool isClassic;
 
   const ModeSelector({
     super.key,
     required this.minPlayer,
     required this.maxPlayer,
-    required this.isBasic,
+    required this.isClassic,
   });
 
   @override
@@ -51,14 +51,14 @@ class ModeSelector extends StatelessWidget {
                             SetupScreen(
                               minPlayer: minPlayer,
                               maxPlayer: maxPlayer,
-                              isBasic: isBasic,
+                              isClassic: isClassic,
                             )),
                   );
                 },
                 child: Column(
                   children: [
                     Icon(
-                      isBasic ? Icons.group_outlined : Icons.groups_outlined,
+                      isClassic ? Icons.group_outlined : Icons.groups_outlined,
                       size: 60,
                       color: Theme.of(context).cardColor,
                     ),
@@ -67,7 +67,7 @@ class ModeSelector extends StatelessWidget {
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     Text(
-                      isBasic ? '시민 vs 마피아' : '시민 vs 마피아 vs 간첩',
+                      isClassic ? '마피아 vs 시민' : '마피아 vs 시민 vs 간첩',
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],

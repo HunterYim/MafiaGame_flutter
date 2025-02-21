@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mafiagame/screens/setup_roll_screen.dart';
+import 'package:mafiagame/screens/setup_job_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
 import 'package:mafiagame/widget/name_box_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
@@ -146,7 +146,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                                     },
                                     pageBuilder: (context, animation,
                                             secondaryAnimation) =>
-                                        SetupRoleScreen(
+                                        SetupJobScreen(
                                           playerNames: playerNames,
                                           playerNum: widget.playerNum,
                                         )),

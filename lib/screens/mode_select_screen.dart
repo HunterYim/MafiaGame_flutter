@@ -40,17 +40,17 @@ class ModeSelectScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // 기본 모드: 4 ~ 8명
+                  // 클래식 모드: 4 ~ 12명
                   ModeSelector(
                     minPlayer: 4,
-                    maxPlayer: 8,
-                    isBasic: true,
+                    maxPlayer: 12,
+                    isClassic: true,
                   ),
-                  // 확장 모드: 9 ~ 12명
+                  // 간첩 모드: 9 ~ 12명
                   ModeSelector(
                     minPlayer: 9,
                     maxPlayer: 12,
-                    isBasic: false,
+                    isClassic: false,
                   )
                 ],
               ),

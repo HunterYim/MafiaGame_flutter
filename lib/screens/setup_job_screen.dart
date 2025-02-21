@@ -1,50 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:mafiagame/screens/setup_name_screen.dart';
+import 'package:mafiagame/models/game_player.dart';
+import 'package:mafiagame/models/mafia_team_player.dart';
+import 'package:mafiagame/screens/home_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
 
-class SetupScreen extends StatefulWidget {
-  final int minPlayer, maxPlayer;
-  final bool isClassic;
+class SetupJobScreen extends StatefulWidget {
+  final int playerNum;
+  final Map<String, dynamic> playerNames;
 
-  const SetupScreen({
+  const SetupJobScreen({
     super.key,
-    required this.minPlayer,
-    required this.maxPlayer,
-    required this.isClassic,
+    required this.playerNames,
+    required this.playerNum,
   });
 
   @override
-  State<SetupScreen> createState() => _SetupScreenState();
+  State<SetupJobScreen> createState() => _SetupJobScreenState();
 }
 
-class _SetupScreenState extends State<SetupScreen> {
-  late int playerNum;
-
-  onRemoveTap() {
-    setState(() {
-      playerNum -= 1;
-
-      if (playerNum <= widget.minPlayer) {
-        playerNum = widget.minPlayer;
-      }
-    });
-  }
-
-  onAddTap() {
-    setState(() {
-      playerNum += 1;
-
-      if (playerNum >= widget.maxPlayer) {
-        playerNum = widget.maxPlayer;
-      }
-    });
-  }
+class _SetupJobScreenState extends State<SetupJobScreen> {
+  Map<String, Map<String, dynamic>> playersData = {};
 
   @override
   void initState() {
     super.initState();
-    playerNum = widget.minPlayer;
+
+    for (var playerNum = 1; playerNum <= widget.playerNum; playerNum++) {
+      if (widget.playerNames['$playerNum'] == '') {
+        widget.playerNames['$playerNum'] = '$playerNum번 플레이어';
+      }
+      Map<String, dynamic> playerData = {};
+
+      playerData['name'] = widget.playerNames['$playerNum'];
+      playerData['job'] = '직업 $playerNum';
+      playersData['$playerNum'] = playerData;
+    }
+
+    print(playersData);
+
+    GamePlayer player1 = Mafia(name: playersData['1']!['name']);
+    player1.die();
+    print(player1.isAlive);
   }
 
   @override
@@ -57,7 +54,7 @@ class _SetupScreenState extends State<SetupScreen> {
         title: Row(
           children: [
             Icon(
-              widget.isClassic ? Icons.group_outlined : Icons.groups_outlined,
+              Icons.casino_outlined,
               size: 40,
               color: Theme.of(context).cardColor,
             ),
@@ -65,7 +62,7 @@ class _SetupScreenState extends State<SetupScreen> {
               width: 10,
             ),
             Text(
-              '인원 설정',
+              '직업 확인',
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ],
@@ -75,67 +72,42 @@ class _SetupScreenState extends State<SetupScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
-            // 버튼 sector
+            // 안내 문구 sector
             Flexible(
-              flex: 12,
+              flex: 4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        '최소 ${widget.minPlayer}명 ~ 최대 ${widget.maxPlayer}명 ',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
+                  Text(
+                    '직업을 확인하세요',
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        widget.isClassic ? '마피아 vs 시민' : '마피아 vs 시민 vs 간첩',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                ],
+              ),
+            ),
+            // 직업 확인 sector
+            Flexible(
+              flex: 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 100,
+                      horizontal: 50,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 5,
+                        color: Theme.of(context).canvasColor,
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Transform.scale(
-                        scaleX: -1,
-                        child: IconButton(
-                          onPressed: onRemoveTap,
-                          icon: Icon(
-                            Icons.person_remove,
-                            size: 70,
-                            color: Theme.of(context).cardColor,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '$playerNum',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      Transform.scale(
-                        scaleX: -1,
-                        child: IconButton(
-                          onPressed: onAddTap,
-                          icon: Icon(
-                            Icons.person_add_outlined,
-                            size: 70,
-                            color: Theme.of(context).cardColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${playersData['1']!['name']}님의 직업은 ${playersData['1']!['job']}입니다',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -178,16 +150,14 @@ class _SetupScreenState extends State<SetupScreen> {
                                   },
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      SetupNameScreen(
-                                        playerNum: playerNum,
-                                      )),
+                                      HomeScreen()),
                             );
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '이름 설정',
+                                '게임 시작',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             ],
