@@ -2,7 +2,16 @@ import 'dart:math';
 
 Random random = Random();
 
-class JobList {
+enum JobListEnum {
+  mafia,
+  mafiaSupporter,
+  requiredCitizen,
+  specialCitizen,
+  normalCitizen,
+  spy,
+}
+
+class JobListByTeam {
   static final List<String> mafia = [
     '마피아1',
     '마피아2',
@@ -30,43 +39,194 @@ class JobList {
     '테러리스트',
   ];
 
+  static List<String> normalCitizen = [
+    '시민1',
+  ];
+
   static List<String> spy = [
     '간첩',
   ];
+}
 
-  static Map<String, int> assignTeam(int playerNum) {
-    late Map<String, int> assignedTeam = {};
+class SetupJobList {
+  Map<JobListEnum, int> assignTeamByMode({
+    required int playerNum,
+    required bool isClassic,
+  }) {
+    Map<JobListEnum, int> assignedTeam = {};
 
-    switch (playerNum) {
-      case 4:
-        assignedTeam['mafia'] = 1;
-        assignedTeam['requiredCitizen'] = 2;
-        assignedTeam['specialCitizen'] = 2;
-        break;
+    if (isClassic) {
+      switch (playerNum) {
+        case 4:
+          assignedTeam[JobListEnum.mafia] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 1;
+          break;
+        case 5:
+          assignedTeam[JobListEnum.mafia] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 2;
+          break;
+        case 6:
+          assignedTeam[JobListEnum.mafia] = 1;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 2;
+          break;
+        case 7:
+          assignedTeam[JobListEnum.mafia] = 1;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 3;
+          break;
+        case 8:
+          assignedTeam[JobListEnum.mafia] = 2;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 3;
+          break;
+        case 9:
+          assignedTeam[JobListEnum.mafia] = 2;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 4;
+          break;
+        case 10:
+          assignedTeam[JobListEnum.mafia] = 2;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 4;
+          break;
+        case 11:
+          assignedTeam[JobListEnum.mafia] = 3;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 5;
+          break;
+        case 12:
+          assignedTeam[JobListEnum.mafia] = 3;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 5;
+          assignedTeam[JobListEnum.normalCitizen] = 1;
+          break;
+      }
+    } else {
+      switch (playerNum) {
+        case 9:
+          assignedTeam[JobListEnum.mafia] = 2;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 3;
+          assignedTeam[JobListEnum.spy] = 1;
+          break;
+        case 10:
+          assignedTeam[JobListEnum.mafia] = 2;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 4;
+          assignedTeam[JobListEnum.spy] = 1;
+          break;
+        case 11:
+          assignedTeam[JobListEnum.mafia] = 3;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 4;
+          assignedTeam[JobListEnum.spy] = 1;
+          break;
+        case 12:
+          assignedTeam[JobListEnum.mafia] = 3;
+          assignedTeam[JobListEnum.mafiaSupporter] = 1;
+          assignedTeam[JobListEnum.requiredCitizen] = 2;
+          assignedTeam[JobListEnum.specialCitizen] = 5;
+          assignedTeam[JobListEnum.spy] = 1;
+          break;
+      }
     }
-
     return assignedTeam;
   }
 
-  static List<String> getRandomJobList(int jobNum, List<String> jobList) {
+  List<String> getJobByTeam({
+    required int jobNum,
+    required List<String> jobListByTeam,
+    required bool isRandom,
+  }) {
     List<String> jobInstance = [];
 
-    jobList.shuffle(random);
+    if (isRandom) jobListByTeam.shuffle(random);
 
     for (var i = 0; i < jobNum; i++) {
-      jobInstance.add(jobList[i]);
+      jobInstance.add(jobListByTeam[i]);
     }
 
     return jobInstance;
   }
 
-  static List<String> getJobList(int jobNum, List<String> jobList) {
-    List<String> jobInstance = [];
+  List<String> getJobList({
+    required int playerNum,
+    required bool isClassic,
+  }) {
+    Map<JobListEnum, int> assignedTeam = assignTeamByMode(
+      playerNum: playerNum,
+      isClassic: isClassic,
+    );
 
-    for (var i = 0; i < jobNum; i++) {
-      jobInstance.add(jobList[i]);
+    List<String> jobList = [];
+
+    for (MapEntry<JobListEnum, int> entry in assignedTeam.entries) {
+      switch (entry.key) {
+        case JobListEnum.mafia:
+          jobList.addAll(getJobByTeam(
+            jobNum: entry.value,
+            jobListByTeam: JobListByTeam.mafia,
+            isRandom: false,
+          ));
+
+          break;
+        case JobListEnum.mafiaSupporter:
+          jobList.addAll(getJobByTeam(
+            jobNum: entry.value,
+            jobListByTeam: JobListByTeam.mafiaSupporter,
+            isRandom: true,
+          ));
+
+          break;
+        case JobListEnum.requiredCitizen:
+          jobList.addAll(getJobByTeam(
+            jobNum: entry.value,
+            jobListByTeam: JobListByTeam.requiredCitizen,
+            isRandom: false,
+          ));
+
+          break;
+        case JobListEnum.specialCitizen:
+          jobList.addAll(getJobByTeam(
+            jobNum: entry.value,
+            jobListByTeam: JobListByTeam.specialCitizen,
+            isRandom: true,
+          ));
+
+          break;
+        case JobListEnum.normalCitizen:
+          jobList.addAll(getJobByTeam(
+            jobNum: entry.value,
+            jobListByTeam: JobListByTeam.normalCitizen,
+            isRandom: false,
+          ));
+
+          break;
+        case JobListEnum.spy:
+          jobList.addAll(getJobByTeam(
+            jobNum: entry.value,
+            jobListByTeam: JobListByTeam.spy,
+            isRandom: false,
+          ));
+
+          break;
+      }
     }
+    jobList.shuffle(random);
 
-    return jobInstance;
+    return jobList;
   }
 }
