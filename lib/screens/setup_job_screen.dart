@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mafiagame/job_list.dart';
 import 'package:mafiagame/models/game_player.dart';
 import 'package:mafiagame/models/mafia_team_player.dart';
 import 'package:mafiagame/screens/home_screen.dart';
@@ -7,12 +8,14 @@ import 'package:mafiagame/widget/setting_bar_widget.dart';
 
 class SetupJobScreen extends StatefulWidget {
   final int playerNum;
+  final bool isClassic;
   final Map<String, dynamic> playerNames;
 
   const SetupJobScreen({
     super.key,
     required this.playerNames,
     required this.playerNum,
+    required this.isClassic,
   });
 
   @override
@@ -20,7 +23,7 @@ class SetupJobScreen extends StatefulWidget {
 }
 
 class _SetupJobScreenState extends State<SetupJobScreen> {
-  Map<String, Map<String, dynamic>> playersData = {};
+  Map<String, dynamic> playerInstances = {};
 
   @override
   void initState() {
@@ -30,18 +33,18 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       if (widget.playerNames['$playerNum'] == '') {
         widget.playerNames['$playerNum'] = '$playerNum번 플레이어';
       }
-      Map<String, dynamic> playerData = {};
-
-      playerData['name'] = widget.playerNames['$playerNum'];
-      playerData['job'] = '직업 $playerNum';
-      playersData['$playerNum'] = playerData;
     }
 
-    print(playersData);
+    print(widget.playerNames);
 
-    GamePlayer player1 = Mafia(name: playersData['1']!['name']);
+    GamePlayer player1 = Mafia(name: widget.playerNames['1']);
     player1.die();
     print(player1.isAlive);
+
+    playerInstances = SetupJobList.getPlayerInstances(
+      isClassic: widget.isClassic,
+      playerNames: widget.playerNames,
+    );
   }
 
   @override
@@ -104,8 +107,8 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${playersData['1']!['name']}님의 직업은 ${playersData['1']!['job']}입니다',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      '${playerInstances['1'].name}님의 직업은 ${playerInstances['1'].job}입니다',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   )
                 ],

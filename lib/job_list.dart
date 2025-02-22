@@ -1,4 +1,7 @@
 import 'dart:math';
+import 'package:mafiagame/models/citizen_team_player.dart';
+import 'package:mafiagame/models/mafia_team_player.dart';
+import 'package:mafiagame/models/spy_team_player.dart';
 
 Random random = Random();
 
@@ -48,8 +51,9 @@ class JobListByTeam {
   ];
 }
 
+// 게임 인원수에 맞게 팀별 인원수 할당
 class SetupJobList {
-  Map<JobListEnum, int> assignTeamByMode({
+  static Map<JobListEnum, int> assignTeamByMode({
     required int playerNum,
     required bool isClassic,
   }) {
@@ -146,23 +150,25 @@ class SetupJobList {
     return assignedTeam;
   }
 
-  List<String> getJobByTeam({
+  // 팀별 할당된 인원수만큼 직업 할당
+  static List<String> getJobByTeam({
     required int jobNum,
     required List<String> jobListByTeam,
     required bool isRandom,
   }) {
-    List<String> jobInstance = [];
+    List<String> jobInstances = [];
 
     if (isRandom) jobListByTeam.shuffle(random);
 
     for (var i = 0; i < jobNum; i++) {
-      jobInstance.add(jobListByTeam[i]);
+      jobInstances.add(jobListByTeam[i]);
     }
 
-    return jobInstance;
+    return jobInstances;
   }
 
-  List<String> getJobList({
+  // 인원수에 맞게 게임에 사용될 직업 리스트 할당
+  static List<String> getJobList({
     required int playerNum,
     required bool isClassic,
   }) {
@@ -228,5 +234,96 @@ class SetupJobList {
     jobList.shuffle(random);
 
     return jobList;
+  }
+
+  // 직업 리스트에 해당하는 직업 인스턴스 리스트 생성
+  static Map<String, dynamic> getPlayerInstances({
+    required bool isClassic,
+    required Map<String, dynamic> playerNames,
+  }) {
+    int playerNum = playerNames.length;
+    List<String> jobList = getJobList(
+      playerNum: playerNum,
+      isClassic: isClassic,
+    );
+    Map<String, dynamic> playerInstances = {};
+
+    print(jobList);
+
+    for (var plyaerId = 1; plyaerId <= playerNum; plyaerId++) {
+      if (JobListByTeam.mafia.contains(jobList[plyaerId - 1])) {
+        playerInstances['$plyaerId'] = Mafia(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '늑대인간') {
+        playerInstances['$plyaerId'] = WereWolf(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '그림자') {
+        playerInstances['$plyaerId'] = ShadowMan(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '경찰') {
+        playerInstances['$plyaerId'] = Cop(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '의사') {
+        playerInstances['$plyaerId'] = Doctor(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '군인') {
+        playerInstances['$plyaerId'] = Soldier(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '정치인') {
+        playerInstances['$plyaerId'] = Politician(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '장의사') {
+        playerInstances['$plyaerId'] = Undertaker(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '건달') {
+        playerInstances['$plyaerId'] = Gangster(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '기자') {
+        playerInstances['$plyaerId'] = Reporter(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '탐정') {
+        playerInstances['$plyaerId'] = Detective(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '도굴꾼') {
+        playerInstances['$plyaerId'] = Ghoul(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '테러리스트') {
+        playerInstances['$plyaerId'] = Martyr(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      } else if (jobList[plyaerId - 1] == '간첩') {
+        playerInstances['$plyaerId'] = Spy(
+          name: playerNames['$plyaerId'],
+          job: jobList[plyaerId - 1],
+        );
+      }
+    }
+
+    return playerInstances;
   }
 }

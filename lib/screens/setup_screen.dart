@@ -180,6 +180,7 @@ class _SetupScreenState extends State<SetupScreen> {
                                           secondaryAnimation) =>
                                       SetupNameScreen(
                                         playerNum: playerNum,
+                                        isClassic: widget.isClassic,
                                       )),
                             );
                           },

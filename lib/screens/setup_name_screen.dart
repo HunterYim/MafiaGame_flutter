@@ -6,10 +6,12 @@ import 'package:mafiagame/widget/setting_bar_widget.dart';
 
 class SetupNameScreen extends StatefulWidget {
   final int playerNum;
+  final bool isClassic;
 
   const SetupNameScreen({
     super.key,
     required this.playerNum,
+    required this.isClassic,
   });
 
   @override
@@ -149,6 +151,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                                         SetupJobScreen(
                                           playerNames: playerNames,
                                           playerNum: widget.playerNum,
+                                          isClassic: widget.isClassic,
                                         )),
                               );
                             },
