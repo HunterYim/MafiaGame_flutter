@@ -248,8 +248,6 @@ class SetupJobList {
     );
     Map<String, dynamic> playerInstances = {};
 
-    print(jobList);
-
     for (var plyaerId = 1; plyaerId <= playerNum; plyaerId++) {
       if (JobListByTeam.mafia.contains(jobList[plyaerId - 1])) {
         playerInstances['$plyaerId'] = Mafia(

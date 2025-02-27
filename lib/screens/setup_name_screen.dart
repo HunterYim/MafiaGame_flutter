@@ -119,7 +119,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 150,
+                          width: 120,
                           height: 60,
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -159,7 +159,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '게임 시작',
+                                  'Next',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],

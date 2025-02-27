@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mafiagame/job_list.dart';
 import 'package:mafiagame/models/game_player.dart';
@@ -23,7 +25,58 @@ class SetupJobScreen extends StatefulWidget {
 }
 
 class _SetupJobScreenState extends State<SetupJobScreen> {
+  int index = 1;
+  bool isHide = true;
+  late Color cardColor;
+  late String playerTeam;
   Map<String, dynamic> playerInstances = {};
+
+  late Timer timer;
+  bool isRunning = false;
+  static const fiveSeconds = 5;
+  int totalSeconds = fiveSeconds;
+
+  void onTick(Timer timer) {
+    if (totalSeconds == 1) {
+      setState(() {
+        isRunning = false;
+        totalSeconds = fiveSeconds;
+        timer.cancel();
+        isHide = false;
+      });
+      timer.cancel();
+    } else {
+      setState(() {
+        totalSeconds -= 1;
+      });
+    }
+  }
+
+  void onTapCheckJobButton() {
+    setState(() {
+      if (playerInstances[index.toString()].team == '마피아 팀') {
+        cardColor = Theme.of(context).focusColor;
+      } else if (playerInstances[index.toString()].team == '시민 팀') {
+        cardColor = Theme.of(context).highlightColor;
+      } else if (playerInstances[index.toString()].team == '간첩 팀') {
+        cardColor = Theme.of(context).hintColor;
+      }
+
+      if (!isRunning) {
+        timer = Timer.periodic(
+          const Duration(seconds: 1),
+          onTick,
+        );
+        isRunning = true;
+      }
+
+      if (!isHide) {
+        index = (index + 1) % (widget.playerNum + 1);
+        if (index == 0) index = 1;
+        isHide = true;
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -35,8 +88,6 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       }
     }
 
-    print(widget.playerNames);
-
     GamePlayer player1 = Mafia(name: widget.playerNames['1']);
     player1.die();
     print(player1.isAlive);
@@ -45,6 +96,8 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       isClassic: widget.isClassic,
       playerNames: widget.playerNames,
     );
+
+    print(playerInstances);
   }
 
   @override
@@ -57,7 +110,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
         title: Row(
           children: [
             Icon(
-              Icons.casino_outlined,
+              Icons.search_outlined,
               size: 40,
               color: Theme.of(context).cardColor,
             ),
@@ -77,41 +130,77 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
           children: [
             // 안내 문구 sector
             Flexible(
-              flex: 4,
+              flex: 3,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    '직업을 확인하세요',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  Row(
+                    children: [
+                      Text(
+                        '아래 카드를 터치하세요',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '$index번 플레이어 순서',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
             // 직업 확인 sector
             Flexible(
-              flex: 8,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 100,
-                      horizontal: 50,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 5,
-                        color: Theme.of(context).canvasColor,
+              flex: 9,
+              child: GestureDetector(
+                onTap: onTapCheckJobButton,
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 5, color: Theme.of(context).canvasColor),
+                    borderRadius: BorderRadius.circular(20),
+                    color: isHide ? Theme.of(context).canvasColor : cardColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          isRunning
+                              ? Text(
+                                  '$totalSeconds',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                )
+                              : Icon(
+                                  isHide
+                                      ? Icons.question_mark_outlined
+                                      : Icons.perm_contact_cal,
+                                  size: 100,
+                                  color: Theme.of(context).cardColor,
+                                ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                isHide
+                                    ? '${playerInstances[index.toString()].name}'
+                                    : '"${playerInstances[index.toString()].job}"',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      '${playerInstances['1'].name}님의 직업은 ${playerInstances['1'].job}입니다',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  )
-                ],
+                    ],
+                  ),
+                ),
               ),
             ),
             // 버튼 sector

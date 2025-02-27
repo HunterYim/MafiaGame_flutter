@@ -149,7 +149,7 @@ class _SetupScreenState extends State<SetupScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 150,
+                        width: 120,
                         height: 60,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -188,7 +188,7 @@ class _SetupScreenState extends State<SetupScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '이름 설정',
+                                'Next',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             ],
