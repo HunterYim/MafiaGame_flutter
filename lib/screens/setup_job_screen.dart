@@ -62,7 +62,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
         cardColor = Theme.of(context).hintColor;
       }
 
-      if (!isRunning) {
+      if (!isRunning && isHide) {
         timer = Timer.periodic(
           const Duration(seconds: 1),
           onTick,
