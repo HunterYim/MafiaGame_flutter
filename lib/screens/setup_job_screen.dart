@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mafiagame/job_list.dart';
 import 'package:mafiagame/models/game_player.dart';
 import 'package:mafiagame/models/mafia_team_player.dart';
-import 'package:mafiagame/screens/home_screen.dart';
+import 'package:mafiagame/screens/night_time_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
 
@@ -33,11 +32,11 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
 
   late Timer timer;
   bool isRunning = false;
-  static const fiveSeconds = 5;
+  static const fiveSeconds = 1;
   int totalSeconds = fiveSeconds;
 
   void onTick(Timer timer) {
-    if (totalSeconds == 1) {
+    if (totalSeconds <= 1) {
       setState(() {
         isRunning = false;
         totalSeconds = fiveSeconds;
@@ -130,14 +129,14 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
           children: [
             // 안내 문구 sector
             Flexible(
-              flex: 3,
+              flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Row(
                     children: [
                       Text(
-                        '아래 카드를 터치하세요',
+                        '순서대로 아래 카드를 터치하세요',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
@@ -145,7 +144,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   Row(
                     children: [
                       Text(
-                        '$index번 플레이어 순서',
+                        '$index번 플레이어',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
@@ -155,7 +154,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
             ),
             // 직업 확인 sector
             Flexible(
-              flex: 9,
+              flex: 10,
               child: GestureDetector(
                 onTap: onTapCheckJobButton,
                 child: Container(
@@ -164,7 +163,9 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                     border: Border.all(
                         width: 5, color: Theme.of(context).canvasColor),
                     borderRadius: BorderRadius.circular(20),
-                    color: isHide ? Theme.of(context).canvasColor : cardColor,
+                    color: isHide
+                        ? Theme.of(context).scaffoldBackgroundColor
+                        : cardColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +181,8 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                               : Icon(
                                   isHide
                                       ? Icons.question_mark_outlined
-                                      : Icons.perm_contact_cal,
+                                      : playerInstances[index.toString()]
+                                          .jobIcon,
                                   size: 100,
                                   color: Theme.of(context).cardColor,
                                 ),
@@ -213,7 +215,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 150,
+                        width: 120,
                         height: 60,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -242,14 +244,17 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                                   },
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      HomeScreen()),
+                                      NightTimeScreen(
+                                        playerNum: widget.playerNum,
+                                        playerInstances: playerInstances,
+                                      )),
                             );
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '게임 시작',
+                                'Start',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             ],

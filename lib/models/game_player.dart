@@ -1,12 +1,17 @@
+import 'package:flutter/material.dart';
+
 class GamePlayer {
-  final String name, job, team;
+  final String name, job, team, abilityText;
   bool isAlive, isSpyTeam;
+  final IconData jobIcon;
 
   GamePlayer({
     required this.name,
     required this.job,
     required this.team,
+    required this.abilityText,
     required this.isSpyTeam,
+    required this.jobIcon,
   }) : isAlive = true;
 
   void vote(GamePlayer targetPlayer) {
