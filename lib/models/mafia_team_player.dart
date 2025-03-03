@@ -19,6 +19,7 @@ class Mafia extends MafiaTeamPlayer {
     fontFamily: 'Material Design Icons',
     fontPackage: 'material_design_icons_flutter',
   );
+
   Mafia({
     required super.name,
     super.job = '마피아',

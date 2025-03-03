@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mafiagame/models/game_player.dart';
 
 class SpyTeamPlayer extends GamePlayer {
@@ -17,6 +17,6 @@ class Spy extends SpyTeamPlayer {
     required super.name,
     super.job = '간첩',
     super.abilityText = '포섭할 대상을 선택하세요',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = FontAwesomeIcons.masksTheater,
   });
 }

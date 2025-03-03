@@ -19,6 +19,7 @@ class Cop extends CitizenTeamPlayer {
     fontFamily: 'Material Design Icons',
     fontPackage: 'material_design_icons_flutter',
   );
+
   Cop({
     required super.name,
     super.job = '경찰',
@@ -32,7 +33,7 @@ class Doctor extends CitizenTeamPlayer {
     required super.name,
     super.job = '의사',
     super.abilityText = '치료할 대상을 선택하세요',
-    super.jobIcon = FontAwesomeIcons.stethoscope,
+    super.jobIcon = FontAwesomeIcons.briefcaseMedical,
   });
 }
 
@@ -41,16 +42,22 @@ class Soldier extends CitizenTeamPlayer {
     required super.name,
     super.job = '군인',
     super.abilityText = '군인은 밤에 사용할 능력이 없습니다',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = FontAwesomeIcons.personRifle,
   });
 }
 
 class Politician extends CitizenTeamPlayer {
+  static const IconData icon = IconData(
+    0xF0A1F,
+    fontFamily: 'Material Design Icons',
+    fontPackage: 'material_design_icons_flutter',
+  );
+
   Politician({
     required super.name,
     super.job = '정치인',
     super.abilityText = '정치인은 밤에 사용할 능력이 없습니다',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = icon,
   });
 }
 
@@ -59,7 +66,7 @@ class Undertaker extends CitizenTeamPlayer {
     required super.name,
     super.job = '장의사',
     super.abilityText = '직업을 조사할 대상을 선택하세요',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = FontAwesomeIcons.sackDollar,
   });
 }
 
@@ -92,20 +99,32 @@ class Reporter extends CitizenTeamPlayer {
 }
 
 class Detective extends CitizenTeamPlayer {
+  static const IconData icon = IconData(
+    0xF140D,
+    fontFamily: 'Material Design Icons',
+    fontPackage: 'material_design_icons_flutter',
+  );
+
   Detective({
     required super.name,
     super.job = '탐정',
     super.abilityText = '조사할 대상을 선택하세요',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = icon,
   });
 }
 
 class Ghoul extends CitizenTeamPlayer {
+  static const IconData icon = IconData(
+    0xF08B7,
+    fontFamily: 'Material Design Icons',
+    fontPackage: 'material_design_icons_flutter',
+  );
+
   Ghoul({
     required super.name,
     super.job = '도굴꾼',
     super.abilityText = '도굴꾼은 밤에 사용할 능력이 없습니다',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = icon,
   });
 }
 
@@ -114,6 +133,15 @@ class Martyr extends CitizenTeamPlayer {
     required super.name,
     super.job = '테러리스트',
     super.abilityText = '자폭할 대상을 선택하세요',
-    super.jobIcon = Icons.import_contacts,
+    super.jobIcon = FontAwesomeIcons.bomb,
+  });
+}
+
+class Citizen extends CitizenTeamPlayer {
+  Citizen({
+    required super.name,
+    super.job = '시민',
+    super.abilityText = '시민은 밤에 사용할 능력이 없습니다',
+    super.jobIcon = Icons.person,
   });
 }
