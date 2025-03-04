@@ -29,7 +29,7 @@ class _NightScreenState extends State<NightTimeScreen> {
 
   late Timer timer;
   bool isRunning = false;
-  static const fiveSeconds = 5;
+  static const fiveSeconds = 1;
   int totalSeconds = fiveSeconds;
 
   void onTick(Timer timer) {
@@ -159,35 +159,43 @@ class _NightScreenState extends State<NightTimeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            isRunning
-                                ? Text(
-                                    '$totalSeconds',
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge,
+                            isHide
+                                ? Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        isRunning
+                                            ? Text(
+                                                '$totalSeconds',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelLarge,
+                                              )
+                                            : Icon(
+                                                Icons.question_mark_outlined,
+                                                size: 100,
+                                                color:
+                                                    Theme.of(context).cardColor,
+                                              ),
+                                        Text(
+                                          '${widget.playerInstances[index.toString()].name}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                        ),
+                                      ],
+                                    ),
                                   )
-                                : Icon(
-                                    isHide
-                                        ? Icons.question_mark_outlined
-                                        : widget
-                                            .playerInstances[index.toString()]
-                                            .jobIcon,
-                                    size: 100,
-                                    color: Theme.of(context).cardColor,
+                                : Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [],
+                                    ),
                                   ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  isHide
-                                      ? '${widget.playerInstances[index.toString()].name}'
-                                      : '"${widget.playerInstances[index.toString()].job}"',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ],

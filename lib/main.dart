@@ -54,7 +54,7 @@ class App extends StatelessWidget {
             color: whiteColor,
           )),
         ),
-        focusColor: const Color(0xFFF54468),
+        focusColor: const Color(0xFFFF335C), //0xFFF54468
         hintColor: const Color(0xFF49A741),
         highlightColor: const Color(0xFF1C7ACC),
         canvasColor: const Color(0xFFB3B3B3),

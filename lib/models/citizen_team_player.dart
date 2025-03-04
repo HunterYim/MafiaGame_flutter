@@ -38,10 +38,11 @@ class Doctor extends CitizenTeamPlayer {
 }
 
 class Soldier extends CitizenTeamPlayer {
+  bool isUsed = false;
   Soldier({
     required super.name,
     super.job = '군인',
-    super.abilityText = '군인은 밤에 사용할 능력이 없습니다',
+    super.abilityText = '밤에 사용할 능력이 없습니다',
     super.jobIcon = FontAwesomeIcons.personRifle,
   });
 }
@@ -56,7 +57,7 @@ class Politician extends CitizenTeamPlayer {
   Politician({
     required super.name,
     super.job = '정치인',
-    super.abilityText = '정치인은 밤에 사용할 능력이 없습니다',
+    super.abilityText = '밤에 사용할 능력이 없습니다',
     super.jobIcon = icon,
   });
 }
@@ -90,6 +91,7 @@ class Gangster extends CitizenTeamPlayer {
 
 class Reporter extends CitizenTeamPlayer {
   bool isEmbargo = true;
+  bool isUsed = false;
   Reporter({
     required super.name,
     super.job = '기자',
@@ -123,7 +125,7 @@ class Ghoul extends CitizenTeamPlayer {
   Ghoul({
     required super.name,
     super.job = '도굴꾼',
-    super.abilityText = '도굴꾼은 밤에 사용할 능력이 없습니다',
+    super.abilityText = '밤에 사용할 능력이 없습니다',
     super.jobIcon = icon,
   });
 }
@@ -141,7 +143,7 @@ class Citizen extends CitizenTeamPlayer {
   Citizen({
     required super.name,
     super.job = '시민',
-    super.abilityText = '시민은 밤에 사용할 능력이 없습니다',
+    super.abilityText = '밤에 사용할 능력이 없습니다',
     super.jobIcon = Icons.person,
   });
 }

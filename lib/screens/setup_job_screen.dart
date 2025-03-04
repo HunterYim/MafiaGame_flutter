@@ -171,33 +171,56 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          isRunning
-                              ? Text(
-                                  '$totalSeconds',
-                                  style: Theme.of(context).textTheme.labelLarge,
+                          isHide
+                              ? Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      isRunning
+                                          ? Text(
+                                              '$totalSeconds',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge,
+                                            )
+                                          : Icon(
+                                              Icons.question_mark_outlined,
+                                              size: 100,
+                                              color:
+                                                  Theme.of(context).cardColor,
+                                            ),
+                                      Text(
+                                        '${playerInstances[index.toString()].name}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                    ],
+                                  ),
                                 )
-                              : Icon(
-                                  isHide
-                                      ? Icons.question_mark_outlined
-                                      : playerInstances[index.toString()]
-                                          .jobIcon,
-                                  size: 100,
-                                  color: Theme.of(context).cardColor,
+                              : Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        playerInstances[index.toString()]
+                                            .jobIcon,
+                                        size: 100,
+                                        color: Theme.of(context).cardColor,
+                                      ),
+                                      Text(
+                                        '"${playerInstances[index.toString()].job}"',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                isHide
-                                    ? '${playerInstances[index.toString()].name}'
-                                    : '"${playerInstances[index.toString()].job}"',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ],

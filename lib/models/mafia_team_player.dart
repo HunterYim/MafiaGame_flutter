@@ -29,6 +29,8 @@ class Mafia extends MafiaTeamPlayer {
 }
 
 class WereWolf extends MafiaTeamPlayer {
+  bool isMeet = false;
+
   WereWolf({
     required super.name,
     super.job = '늑대인간',
@@ -38,6 +40,8 @@ class WereWolf extends MafiaTeamPlayer {
 }
 
 class ShadowMan extends MafiaTeamPlayer {
+  bool isMeet = false;
+
   ShadowMan({
     required super.name,
     super.job = '그림자',
