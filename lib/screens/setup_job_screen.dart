@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mafiagame/job_list.dart';
-import 'package:mafiagame/models/game_player.dart';
-import 'package:mafiagame/models/mafia_team_player.dart';
 import 'package:mafiagame/screens/night_time_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
@@ -28,6 +26,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   bool isHide = true;
   late Color cardColor;
   late String playerTeam;
+  List<String> mafiaList = [];
   Map<String, dynamic> playerInstances = {};
 
   late Timer timer;
@@ -81,22 +80,49 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   void initState() {
     super.initState();
 
+    // 빈 플레이어 이름 초기화
+    nullNameInit();
+    // 게임 모드에 따라 직업 랜덤 배정
+    setJobInstances();
+
+    // 마피아 팀원 정보 메시지 초기화
+    initMafiaSubText();
+
+    print(playerInstances);
+  }
+
+  void nullNameInit() {
     for (var playerNum = 1; playerNum <= widget.playerNum; playerNum++) {
       if (widget.playerNames['$playerNum'] == '') {
         widget.playerNames['$playerNum'] = '$playerNum번 플레이어';
       }
     }
+  }
 
-    GamePlayer player1 = Mafia(name: widget.playerNames['1']);
-    player1.die();
-    print(player1.isAlive);
-
+  void setJobInstances() {
     playerInstances = SetupJobList.getPlayerInstances(
       isClassic: widget.isClassic,
       playerNames: widget.playerNames,
     );
+  }
 
-    print(playerInstances);
+  void initMafiaSubText() {
+    for (var playerId = 1; playerId <= widget.playerNum; playerId++) {
+      if (playerInstances[playerId.toString()].job.contains('마피아')) {
+        mafiaList.add('$playerId');
+      }
+    }
+
+    for (var currencyMafia in mafiaList) {
+      playerInstances[currencyMafia].otherMafias =
+          mafiaList.where((mafia) => currencyMafia != mafia).toList();
+
+      for (var otherMafia in playerInstances[currencyMafia].otherMafias) {
+        playerInstances[currencyMafia].subText +=
+            "'${playerInstances[otherMafia].name}' ";
+      }
+      playerInstances[currencyMafia].subText += '님과 같은 팀입니다.';
+    }
   }
 
   @override
@@ -170,59 +196,63 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          isHide
-                              ? Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      isRunning
-                                          ? Text(
-                                              '$totalSeconds',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelLarge,
-                                            )
-                                          : Icon(
-                                              Icons.question_mark_outlined,
-                                              size: 100,
-                                              color:
-                                                  Theme.of(context).cardColor,
-                                            ),
-                                      Text(
-                                        '${playerInstances[index.toString()].name}',
+                      isHide
+                          ? Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  isRunning
+                                      ? Text(
+                                          '$totalSeconds',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        )
+                                      : Icon(
+                                          Icons.question_mark_outlined,
+                                          size: 100,
+                                          color: Theme.of(context).cardColor,
+                                        ),
+                                  Text(
+                                    '${playerInstances[index.toString()].name}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    playerInstances[index.toString()].jobIcon,
+                                    size: 100,
+                                    color: Theme.of(context).cardColor,
+                                  ),
+                                  Text(
+                                    '"${playerInstances[index.toString()].job}"',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${playerInstances[index.toString()].subText}',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyLarge,
+                                            .bodyMedium,
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                )
-                              : Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        playerInstances[index.toString()]
-                                            .jobIcon,
-                                        size: 100,
-                                        color: Theme.of(context).cardColor,
-                                      ),
-                                      Text(
-                                        '"${playerInstances[index.toString()].job}"',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                        ],
-                      ),
+                                ],
+                              ),
+                            ),
                     ],
                   ),
                 ),

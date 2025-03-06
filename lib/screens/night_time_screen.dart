@@ -158,46 +158,53 @@ class _NightScreenState extends State<NightTimeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            isHide
-                                ? Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        isRunning
-                                            ? Text(
-                                                '$totalSeconds',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelLarge,
-                                              )
-                                            : Icon(
-                                                Icons.question_mark_outlined,
-                                                size: 100,
-                                                color:
-                                                    Theme.of(context).cardColor,
-                                              ),
-                                        Text(
-                                          '${widget.playerInstances[index.toString()].name}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge,
-                                        ),
-                                      ],
-                                    ),
+                        Expanded(
+                            child: isHide
+                                ? Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      isRunning
+                                          ? Text(
+                                              '$totalSeconds',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge,
+                                            )
+                                          : Icon(
+                                              Icons.question_mark_outlined,
+                                              size: 100,
+                                              color:
+                                                  Theme.of(context).cardColor,
+                                            ),
+                                      Text(
+                                        '${widget.playerInstances[index.toString()].name}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                    ],
                                   )
-                                : Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [],
+                                : Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: GridView.count(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
+                                      children: List.generate(20, (index) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color:
+                                                Colors.blue[100 * (index % 9)],
+                                          ),
+                                          child: Center(
+                                              child: Text('Item $index')),
+                                        );
+                                      }),
                                     ),
-                                  ),
-                          ],
-                        ),
+                                  )),
                       ],
                     ),
                   ),

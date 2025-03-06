@@ -16,7 +16,7 @@ class Spy extends SpyTeamPlayer {
   Spy({
     required super.name,
     super.job = '간첩',
-    super.abilityText = '포섭할 대상을 선택하세요',
+    super.abilityText = '포섭할 대상 선택',
     super.jobIcon = FontAwesomeIcons.masksTheater,
   });
 }
