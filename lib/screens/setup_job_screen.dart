@@ -207,17 +207,22 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                                           '$totalSeconds',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .labelLarge,
+                                              .titleSmall,
                                         )
                                       : Icon(
                                           Icons.question_mark_outlined,
                                           size: 100,
                                           color: Theme.of(context).cardColor,
                                         ),
-                                  Text(
-                                    '${playerInstances[index.toString()].name}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Text(
+                                      '${playerInstances[index.toString()].name}',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ],
                               ),

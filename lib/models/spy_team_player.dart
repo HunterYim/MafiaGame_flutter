@@ -9,6 +9,7 @@ class SpyTeamPlayer extends GamePlayer {
     super.isSpyTeam = true,
     super.team = '간첩 팀',
     required super.abilityText,
+    required super.subText,
   });
 }
 
@@ -17,6 +18,7 @@ class Spy extends SpyTeamPlayer {
     required super.name,
     super.job = '간첩',
     super.abilityText = '포섭할 대상 선택',
+    super.subText = '간첩 소개',
     super.jobIcon = FontAwesomeIcons.masksTheater,
   });
 }

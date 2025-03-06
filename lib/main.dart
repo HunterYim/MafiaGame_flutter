@@ -23,6 +23,11 @@ class App extends StatelessWidget {
             fontSize: 90,
             color: whiteColor,
           )),
+          titleSmall: GoogleFonts.doHyeon(
+              textStyle: TextStyle(
+            fontSize: 70,
+            color: whiteColor,
+          )),
           labelLarge: GoogleFonts.doHyeon(
               textStyle: TextStyle(
             fontSize: 50,

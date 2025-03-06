@@ -20,7 +20,6 @@ class NightTimeScreen extends StatefulWidget {
 
 class _NightScreenState extends State<NightTimeScreen> {
   late String playerTeam;
-  Map<String, dynamic> playerInstances = {};
 
   int day = 0;
   int index = 1;
@@ -48,7 +47,7 @@ class _NightScreenState extends State<NightTimeScreen> {
     }
   }
 
-  void onTapCheckJobButton() {
+  void onTapCard() {
     setState(() {
       if (widget.playerInstances[index.toString()].team == '마피아 팀') {
         cardColor = Theme.of(context).focusColor;
@@ -65,7 +64,11 @@ class _NightScreenState extends State<NightTimeScreen> {
         );
         isRunning = true;
       }
+    });
+  }
 
+  void onTabPlayerButton() {
+    setState(() {
       if (!isHide) {
         index = (index + 1) % (widget.playerNum + 1);
         if (index == 0) index = 1;
@@ -89,6 +92,7 @@ class _NightScreenState extends State<NightTimeScreen> {
         appBar: AppBar(
           foregroundColor: Theme.of(context).textTheme.headlineLarge!.color,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          scrolledUnderElevation: 0,
           leading: Container(),
           title: Row(
             children: [
@@ -143,7 +147,7 @@ class _NightScreenState extends State<NightTimeScreen> {
               Flexible(
                 flex: 10,
                 child: GestureDetector(
-                  onTap: onTapCheckJobButton,
+                  onTap: onTapCard,
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
@@ -159,52 +163,80 @@ class _NightScreenState extends State<NightTimeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                            child: isHide
-                                ? Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      isRunning
-                                          ? Text(
-                                              '$totalSeconds',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelLarge,
-                                            )
-                                          : Icon(
-                                              Icons.question_mark_outlined,
-                                              size: 100,
-                                              color:
-                                                  Theme.of(context).cardColor,
-                                            ),
-                                      Text(
+                          child: isHide
+                              ? Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    isRunning
+                                        ? Text(
+                                            '$totalSeconds',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall,
+                                          )
+                                        : Icon(
+                                            Icons.question_mark_outlined,
+                                            size: 100,
+                                            color: Theme.of(context).cardColor,
+                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Text(
                                         '${widget.playerInstances[index.toString()].name}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge,
+                                        textAlign: TextAlign.center,
                                       ),
-                                    ],
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: GridView.count(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10,
-                                      children: List.generate(20, (index) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color:
-                                                Colors.blue[100 * (index % 9)],
-                                          ),
-                                          child: Center(
-                                              child: Text('Item $index')),
-                                        );
-                                      }),
                                     ),
-                                  )),
+                                  ],
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: GridView.builder(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 20,
+                                      mainAxisSpacing: 20,
+                                      childAspectRatio: 1.4,
+                                    ),
+                                    itemCount: widget.playerNum,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: onTabPlayerButton,
+                                        child: IntrinsicWidth(
+                                          child: IntrinsicHeight(
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 3,
+                                                  color: Theme.of(context)
+                                                      .canvasColor,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '${widget.playerInstances[(index + 1).toString()].name}',
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                        ),
                       ],
                     ),
                   ),

@@ -10,6 +10,7 @@ class CitizenTeamPlayer extends GamePlayer {
     super.isSpyTeam = false,
     super.team = '시민 팀',
     required super.abilityText,
+    required super.subText,
   });
 }
 
@@ -24,6 +25,7 @@ class Cop extends CitizenTeamPlayer {
     required super.name,
     super.job = '경찰',
     super.abilityText = '조사할 대상 선택',
+    super.subText = '경찰 소개',
     super.jobIcon = icon,
   });
 }
@@ -33,6 +35,7 @@ class Doctor extends CitizenTeamPlayer {
     required super.name,
     super.job = '의사',
     super.abilityText = '치료할 대상 선택',
+    super.subText = '의사 소개',
     super.jobIcon = FontAwesomeIcons.briefcaseMedical,
   });
 }
@@ -43,6 +46,7 @@ class Soldier extends CitizenTeamPlayer {
     required super.name,
     super.job = '군인',
     super.abilityText = '밤에 사용할 능력 없음',
+    super.subText = '군인 소개',
     super.jobIcon = FontAwesomeIcons.personRifle,
   });
 }
@@ -58,6 +62,7 @@ class Politician extends CitizenTeamPlayer {
     required super.name,
     super.job = '정치인',
     super.abilityText = '밤에 사용할 능력 없음',
+    super.subText = '정치인 소개',
     super.jobIcon = icon,
   });
 }
@@ -67,6 +72,7 @@ class Undertaker extends CitizenTeamPlayer {
     required super.name,
     super.job = '장의사',
     super.abilityText = '직업 조사할 대상 선택',
+    super.subText = '장의사 소개',
     super.jobIcon = FontAwesomeIcons.sackDollar,
   });
 }
@@ -76,6 +82,7 @@ class Lover extends CitizenTeamPlayer {
     required super.name,
     super.job = '연인',
     super.abilityText = '',
+    super.subText = '연인 소개',
     super.jobIcon = Icons.import_contacts,
   });
 }
@@ -85,6 +92,7 @@ class Gangster extends CitizenTeamPlayer {
     required super.name,
     super.job = '건달',
     super.abilityText = '투표 금지시킬 대상 선택',
+    super.subText = '건달 소개',
     super.jobIcon = FontAwesomeIcons.handFist,
   });
 }
@@ -96,6 +104,7 @@ class Reporter extends CitizenTeamPlayer {
     required super.name,
     super.job = '기자',
     super.abilityText = '기사 쓸 대상 선택',
+    super.subText = '기자 소개',
     super.jobIcon = Icons.camera_alt_outlined,
   });
 }
@@ -111,6 +120,7 @@ class Detective extends CitizenTeamPlayer {
     required super.name,
     super.job = '탐정',
     super.abilityText = '조사할 대상 선택',
+    super.subText = '탐정 소개',
     super.jobIcon = icon,
   });
 }
@@ -126,6 +136,7 @@ class Ghoul extends CitizenTeamPlayer {
     required super.name,
     super.job = '도굴꾼',
     super.abilityText = '밤에 사용할 능력 없음',
+    super.subText = '도굴꾼 소개',
     super.jobIcon = icon,
   });
 }
@@ -135,6 +146,7 @@ class Martyr extends CitizenTeamPlayer {
     required super.name,
     super.job = '테러리스트',
     super.abilityText = '자폭할 대상 선택',
+    super.subText = '테러리스트 소개',
     super.jobIcon = FontAwesomeIcons.bomb,
   });
 }
@@ -144,6 +156,7 @@ class Citizen extends CitizenTeamPlayer {
     required super.name,
     super.job = '시민',
     super.abilityText = '밤에 사용할 능력 없음',
+    super.subText = '시민 소개',
     super.jobIcon = Icons.person,
   });
 }
