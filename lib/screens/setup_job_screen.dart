@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mafiagame/job_list.dart';
 import 'package:mafiagame/screens/night_time_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
+import 'package:mafiagame/widget/job_card_back_widget.dart';
+import 'package:mafiagame/widget/job_card_front_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
 
 class SetupJobScreen extends StatefulWidget {
@@ -117,11 +119,12 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       playerInstances[currencyMafia].otherMafias =
           mafiaList.where((mafia) => currencyMafia != mafia).toList();
 
+      playerInstances[currencyMafia].subText += '마피아는 ';
       for (var otherMafia in playerInstances[currencyMafia].otherMafias) {
         playerInstances[currencyMafia].subText +=
             "'${playerInstances[otherMafia].name}' ";
       }
-      playerInstances[currencyMafia].subText += '님과 같은 팀입니다.';
+      playerInstances[currencyMafia].subText += '님 입니다';
     }
   }
 
@@ -162,7 +165,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   Row(
                     children: [
                       Text(
-                        '순서대로 아래 카드를 터치하세요',
+                        '순서대로 카드의 직업을 확인하세요',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
@@ -196,68 +199,19 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      isHide
-                          ? Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  isRunning
-                                      ? Text(
-                                          '$totalSeconds',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
-                                        )
-                                      : Icon(
-                                          Icons.question_mark_outlined,
-                                          size: 100,
-                                          color: Theme.of(context).cardColor,
-                                        ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Text(
-                                      '${playerInstances[index.toString()].name}',
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
+                      Expanded(
+                        child: isHide
+                            ? JobCardBackWidget(
+                                isRunning: isRunning,
+                                totalSeconds: totalSeconds,
+                                playerInstances: playerInstances,
+                                index: index,
+                              )
+                            : JobCardFrontWidget(
+                                playerInstances: playerInstances,
+                                index: index,
                               ),
-                            )
-                          : Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(
-                                    playerInstances[index.toString()].jobIcon,
-                                    size: 100,
-                                    color: Theme.of(context).cardColor,
-                                  ),
-                                  Text(
-                                    '"${playerInstances[index.toString()].job}"',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '${playerInstances[index.toString()].subText}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                      ),
                     ],
                   ),
                 ),

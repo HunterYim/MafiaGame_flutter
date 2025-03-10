@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mafiagame/screens/day_time_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
+import 'package:mafiagame/widget/job_card_back_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
 
 class NightTimeScreen extends StatefulWidget {
@@ -164,34 +165,11 @@ class _NightScreenState extends State<NightTimeScreen> {
                       children: [
                         Expanded(
                           child: isHide
-                              ? Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    isRunning
-                                        ? Text(
-                                            '$totalSeconds',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall,
-                                          )
-                                        : Icon(
-                                            Icons.question_mark_outlined,
-                                            size: 100,
-                                            color: Theme.of(context).cardColor,
-                                          ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Text(
-                                        '${widget.playerInstances[index.toString()].name}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
+                              ? JobCardBackWidget(
+                                  isRunning: isRunning,
+                                  totalSeconds: totalSeconds,
+                                  playerInstances: widget.playerInstances,
+                                  index: index,
                                 )
                               : Padding(
                                   padding: const EdgeInsets.all(20),
@@ -207,28 +185,22 @@ class _NightScreenState extends State<NightTimeScreen> {
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: onTabPlayerButton,
-                                        child: IntrinsicWidth(
-                                          child: IntrinsicHeight(
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  width: 3,
-                                                  color: Theme.of(context)
-                                                      .canvasColor,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  '${widget.playerInstances[(index + 1).toString()].name}',
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1.8,
+                                              color:
+                                                  Theme.of(context).canvasColor,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              '${widget.playerInstances[(index + 1).toString()].name}',
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ),
