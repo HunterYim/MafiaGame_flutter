@@ -61,7 +61,7 @@ class App extends StatelessWidget {
         ),
         focusColor: const Color(0xFFFF335C), //0xFFF54468
         hintColor: const Color(0xFF49A741),
-        highlightColor: const Color(0xFF1C7ACC),
+        highlightColor: const Color(0xFF1C7ACC), // 시민 팀 색상
         canvasColor: const Color(0xFFB3B3B3),
       ),
       home: const HomeScreen(),
