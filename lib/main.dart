@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFDDFF00),
+        scaffoldBackgroundColor: const Color(0xFF1F1F1F),
         cardColor: whiteColor,
         textTheme: TextTheme(
           headlineLarge: GoogleFonts.bowlbyOneSc(
@@ -60,7 +60,7 @@ class App extends StatelessWidget {
           )),
         ),
         focusColor: const Color(0xFFFF335C), //0xFFF54468
-        hintColor: const Color(0xFF49A741),
+        hintColor: const Color(0xFF49A741), // 간첩 팀 색상
         highlightColor: const Color(0xFF1C7ACC),
         canvasColor: const Color(0xFFB3B3B3),
       ),
