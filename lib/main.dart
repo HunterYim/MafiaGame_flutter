@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFF1F1F1F),
+        scaffoldBackgroundColor: const Color(0xFFDDFF00),
         cardColor: whiteColor,
         textTheme: TextTheme(
           headlineLarge: GoogleFonts.bowlbyOneSc(
