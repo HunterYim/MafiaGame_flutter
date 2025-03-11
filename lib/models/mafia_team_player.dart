@@ -10,6 +10,7 @@ class MafiaTeamPlayer extends GamePlayer {
     required super.subText,
     required super.jobIcon,
     super.isSpyTeam = false,
+    super.isAbilityUsable = true,
     super.team = '마피아 팀',
   });
 }

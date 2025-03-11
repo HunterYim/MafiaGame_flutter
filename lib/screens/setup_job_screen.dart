@@ -10,6 +10,7 @@ import 'package:mafiagame/widget/setting_bar_widget.dart';
 class SetupJobScreen extends StatefulWidget {
   final int playerNum;
   final bool isClassic;
+  final List<String> playerKeys;
   final Map<String, dynamic> playerNames;
 
   const SetupJobScreen({
@@ -17,6 +18,7 @@ class SetupJobScreen extends StatefulWidget {
     required this.playerNames,
     required this.playerNum,
     required this.isClassic,
+    required this.playerKeys,
   });
 
   @override
@@ -90,13 +92,16 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
     // 마피아 팀원 정보 메시지 초기화
     initMafiaSubText();
 
+    // 직업별 능력 대상 리스트 초기화
+    initAbilityTargets();
+
     print(playerInstances);
   }
 
   void nullNameInit() {
-    for (var playerNum = 1; playerNum <= widget.playerNum; playerNum++) {
-      if (widget.playerNames['$playerNum'] == '') {
-        widget.playerNames['$playerNum'] = '$playerNum번 플레이어';
+    for (var key in widget.playerKeys) {
+      if (widget.playerNames[key] == '') {
+        widget.playerNames[key] = '$key번 플레이어';
       }
     }
   }
@@ -109,9 +114,9 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   }
 
   void initMafiaSubText() {
-    for (var playerId = 1; playerId <= widget.playerNum; playerId++) {
-      if (playerInstances[playerId.toString()].job.contains('마피아')) {
-        mafiaList.add('$playerId');
+    for (var key in widget.playerKeys) {
+      if (playerInstances[key].job.contains('마피아')) {
+        mafiaList.add(key);
       }
     }
 
@@ -125,6 +130,20 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
             "'${playerInstances[otherMafia].name}' ";
       }
       playerInstances[currencyMafia].subText += '님 입니다';
+    }
+  }
+
+  void initAbilityTargets() {
+    for (var mainKey in widget.playerKeys) {
+      if (playerInstances[mainKey].isAbilityUsable) {
+        for (var subKey in widget.playerKeys) {
+          if (mainKey != subKey) {
+            String targetName = playerInstances[subKey].name;
+            playerInstances[mainKey].abilityTargets.add(targetName);
+          }
+        }
+      }
+      print(playerInstances[mainKey].abilityTargets);
     }
   }
 

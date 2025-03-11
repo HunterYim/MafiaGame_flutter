@@ -20,19 +20,28 @@ class SetupNameScreen extends StatefulWidget {
 
 class _SetupNameScreenState extends State<SetupNameScreen> {
   late Future<Map<String, dynamic>> startPlayerNames;
+  List<String> playerKeys = [];
   Map<String, dynamic> playerNames = {};
 
   Future<Map<String, dynamic>> namesAsign() async {
-    Map<String, dynamic> startPlayerDataInstace = {};
-    for (var playerNum = 1; playerNum <= widget.playerNum; playerNum++) {
-      startPlayerDataInstace['$playerNum'] = '$playerNum번 플레이어';
+    Map<String, dynamic> startPlayerDataInstances = {};
+    for (var key in playerKeys) {
+      startPlayerDataInstances[key] = '$key 플레이어';
     }
-    return startPlayerDataInstace;
+    return startPlayerDataInstances;
+  }
+
+  void setPlayerKeys() {
+    for (var key = 1; key <= widget.playerNum; key++) {
+      playerKeys.add(key.toString());
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    setPlayerKeys();
+
     startPlayerNames = namesAsign();
   }
 
@@ -152,6 +161,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                                           playerNames: playerNames,
                                           playerNum: widget.playerNum,
                                           isClassic: widget.isClassic,
+                                          playerKeys: playerKeys,
                                         )),
                               );
                             },

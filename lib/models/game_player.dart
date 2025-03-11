@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class GamePlayer {
   final String name, job, team, abilityText;
   String subText;
-  bool isAlive, isSpyTeam;
+  bool isAlive, isSpyTeam, isAbilityUsable;
   final IconData jobIcon;
+
+  List<String> abilityTargets = [];
+  List<String> usedAbilityTargets = [];
 
   GamePlayer({
     required this.name,
@@ -13,6 +16,7 @@ class GamePlayer {
     required this.abilityText,
     required this.subText,
     required this.isSpyTeam,
+    required this.isAbilityUsable,
     required this.jobIcon,
   }) : isAlive = true;
 
