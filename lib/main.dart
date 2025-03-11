@@ -60,7 +60,8 @@ class App extends StatelessWidget {
           )),
         ),
         focusColor: const Color(0xFFFF335C), //0xFFF54468
-        hintColor: const Color(0xFF49A741), // 간첩 팀 색상
+        // 간첩 팀 색상
+        hintColor: const Color(0xFF49A741),
         highlightColor: const Color(0xFF1C7ACC),
         canvasColor: const Color(0xFFB3B3B3),
       ),
