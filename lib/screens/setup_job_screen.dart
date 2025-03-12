@@ -143,6 +143,10 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
           }
         }
       }
+
+      if (playerInstances[mainKey].abilityTargets.isEmpty) {
+        playerInstances[mainKey].abilityTargets.add('능력 사용 없음');
+      }
       print(playerInstances[mainKey].abilityTargets);
     }
   }
@@ -276,7 +280,6 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
                                       NightTimeScreen(
-                                        playerNum: widget.playerNum,
                                         playerInstances: playerInstances,
                                       )),
                             );

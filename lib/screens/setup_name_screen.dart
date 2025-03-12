@@ -26,7 +26,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
   Future<Map<String, dynamic>> namesAsign() async {
     Map<String, dynamic> startPlayerDataInstances = {};
     for (var key in playerKeys) {
-      startPlayerDataInstances[key] = '$key 플레이어';
+      startPlayerDataInstances[key] = '$key번 플레이어';
     }
     return startPlayerDataInstances;
   }
