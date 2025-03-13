@@ -1,6 +1,6 @@
 # MafiaGame
 
-A offline Mafia Game Supporter made by Flutter.
+A offline Mafia Game supporter made by Flutter.
 
 ## Getting Started
 
