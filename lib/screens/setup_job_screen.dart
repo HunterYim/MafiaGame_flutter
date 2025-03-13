@@ -26,7 +26,6 @@ class SetupJobScreen extends StatefulWidget {
 }
 
 class _SetupJobScreenState extends State<SetupJobScreen> {
-  int index = 1;
   String id = '1';
   bool isHide = true;
   late Color cardColor;

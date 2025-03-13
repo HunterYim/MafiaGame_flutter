@@ -21,7 +21,6 @@ class _NightScreenState extends State<NightTimeScreen> {
   late String playerTeam;
 
   int day = 0;
-  int index = 1;
   String id = '1';
   bool isHide = true;
   late Color cardColor;
