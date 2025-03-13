@@ -147,7 +147,10 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       }
 
       if (playerInstances[mainId].abilityTargets.isEmpty) {
-        playerInstances[mainId].abilityTargets.add('능력 사용 없음');
+        playerInstances[mainId].abilityTargets.add('능력 사용 없음: 다음 순서로');
+      }
+      if (playerInstances[mainId].job == '장의사') {
+        playerInstances[mainId].abilityTargets.add('능력을 사용할 대상 없음');
       }
       print(playerInstances[mainId].abilityTargets);
     }
@@ -198,7 +201,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   Row(
                     children: [
                       Text(
-                        '$id번 플레이어',
+                        '$id 플레이어',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
