@@ -25,6 +25,12 @@ class Mafia extends MafiaTeamPlayer {
     fontPackage: 'material_design_icons_flutter',
   );
 
+  void kill(GamePlayer target) {
+    if (isKill) {
+      target.die();
+    }
+  }
+
   Mafia({
     required super.name,
     super.job = '마피아',
