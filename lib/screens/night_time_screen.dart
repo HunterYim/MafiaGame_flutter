@@ -175,10 +175,22 @@ class _NightScreenState extends State<NightTimeScreen> {
                                   child: GridView.builder(
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
+                                      crossAxisCount: (widget
+                                                  .playerInstances[id]
+                                                  .abilityTargets
+                                                  .length ==
+                                              1)
+                                          ? 1
+                                          : 2,
                                       crossAxisSpacing: 20,
                                       mainAxisSpacing: 20,
-                                      childAspectRatio: 1.4,
+                                      childAspectRatio: (widget
+                                                  .playerInstances[id]
+                                                  .abilityTargets
+                                                  .length ==
+                                              1)
+                                          ? 3.0
+                                          : 2.0,
                                     ),
                                     itemCount: widget.playerInstances[id]
                                         .abilityTargets.length,
