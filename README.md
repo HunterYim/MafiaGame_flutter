@@ -1,6 +1,7 @@
-# mafiagame
+# MafiagGame
 
-A new Flutter project.
+A offline Mafia Game Supporter made by Flutter
+
 
 ## Getting Started
 
