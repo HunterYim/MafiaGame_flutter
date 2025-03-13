@@ -10,7 +10,7 @@ import 'package:mafiagame/widget/setting_bar_widget.dart';
 class SetupJobScreen extends StatefulWidget {
   final int playerNum;
   final bool isClassic;
-  final List<String> playerKeys;
+  final List<String> playerIds;
   final Map<String, dynamic> playerNames;
 
   const SetupJobScreen({
@@ -18,7 +18,7 @@ class SetupJobScreen extends StatefulWidget {
     required this.playerNames,
     required this.playerNum,
     required this.isClassic,
-    required this.playerKeys,
+    required this.playerIds,
   });
 
   @override
@@ -27,6 +27,7 @@ class SetupJobScreen extends StatefulWidget {
 
 class _SetupJobScreenState extends State<SetupJobScreen> {
   int index = 1;
+  String id = '1';
   bool isHide = true;
   late Color cardColor;
   late String playerTeam;
@@ -56,11 +57,11 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
 
   void onTapCheckJobButton() {
     setState(() {
-      if (playerInstances[index.toString()].team == '마피아 팀') {
+      if (playerInstances[id].team == '마피아 팀') {
         cardColor = Theme.of(context).focusColor;
-      } else if (playerInstances[index.toString()].team == '시민 팀') {
+      } else if (playerInstances[id].team == '시민 팀') {
         cardColor = Theme.of(context).highlightColor;
-      } else if (playerInstances[index.toString()].team == '간첩 팀') {
+      } else if (playerInstances[id].team == '간첩 팀') {
         cardColor = Theme.of(context).hintColor;
       }
 
@@ -73,8 +74,10 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       }
 
       if (!isHide) {
+        int index = int.parse(id);
         index = (index + 1) % (widget.playerNum + 1);
-        if (index == 0) index = 1;
+        id = index.toString();
+        if (index == 0) id = '1';
         isHide = true;
       }
     });
@@ -99,9 +102,9 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   }
 
   void nullNameInit() {
-    for (var key in widget.playerKeys) {
-      if (widget.playerNames[key] == '') {
-        widget.playerNames[key] = '$key번 플레이어';
+    for (var Id in widget.playerIds) {
+      if (widget.playerNames[Id] == '') {
+        widget.playerNames[Id] = '$Id 플레이어';
       }
     }
   }
@@ -114,9 +117,9 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   }
 
   void initMafiaSubText() {
-    for (var key in widget.playerKeys) {
-      if (playerInstances[key].job.contains('마피아')) {
-        mafiaList.add(key);
+    for (var Id in widget.playerIds) {
+      if (playerInstances[Id].job.contains('마피아')) {
+        mafiaList.add(Id);
       }
     }
 
@@ -134,20 +137,20 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   }
 
   void initAbilityTargets() {
-    for (var mainKey in widget.playerKeys) {
-      if (playerInstances[mainKey].isAbilityUsable) {
-        for (var subKey in widget.playerKeys) {
-          if (mainKey != subKey) {
-            String targetName = playerInstances[subKey].name;
-            playerInstances[mainKey].abilityTargets.add(targetName);
+    for (var mainId in widget.playerIds) {
+      if (playerInstances[mainId].isAbilityUsable) {
+        for (var subId in widget.playerIds) {
+          if (mainId != subId) {
+            String targetName = playerInstances[subId].name;
+            playerInstances[mainId].abilityTargets.add(targetName);
           }
         }
       }
 
-      if (playerInstances[mainKey].abilityTargets.isEmpty) {
-        playerInstances[mainKey].abilityTargets.add('능력 사용 없음');
+      if (playerInstances[mainId].abilityTargets.isEmpty) {
+        playerInstances[mainId].abilityTargets.add('능력 사용 없음');
       }
-      print(playerInstances[mainKey].abilityTargets);
+      print(playerInstances[mainId].abilityTargets);
     }
   }
 
@@ -196,7 +199,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   Row(
                     children: [
                       Text(
-                        '$index번 플레이어',
+                        '$id 플레이어',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
@@ -228,11 +231,11 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                                 isRunning: isRunning,
                                 totalSeconds: totalSeconds,
                                 playerInstances: playerInstances,
-                                index: index,
+                                id: id,
                               )
                             : JobCardFrontWidget(
                                 playerInstances: playerInstances,
-                                index: index,
+                                id: id,
                               ),
                       ),
                     ],

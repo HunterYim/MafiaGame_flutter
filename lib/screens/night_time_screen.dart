@@ -22,6 +22,7 @@ class _NightScreenState extends State<NightTimeScreen> {
 
   int day = 0;
   int index = 1;
+  String id = '1';
   bool isHide = true;
   late Color cardColor;
 
@@ -48,12 +49,11 @@ class _NightScreenState extends State<NightTimeScreen> {
 
   void onTapCard() {
     setState(() {
-      String key = index.toString();
-      if (widget.playerInstances[key].team == '마피아 팀') {
+      if (widget.playerInstances[id].team == '마피아 팀') {
         cardColor = Theme.of(context).focusColor;
-      } else if (widget.playerInstances[key].team == '시민 팀') {
+      } else if (widget.playerInstances[id].team == '시민 팀') {
         cardColor = Theme.of(context).highlightColor;
-      } else if (widget.playerInstances[key].team == '간첩 팀') {
+      } else if (widget.playerInstances[id].team == '간첩 팀') {
         cardColor = Theme.of(context).hintColor;
       }
 
@@ -70,8 +70,10 @@ class _NightScreenState extends State<NightTimeScreen> {
   void onTabPlayerButton() {
     setState(() {
       if (!isHide) {
+        int index = int.parse(id);
         index = (index + 1) % (widget.playerInstances.length + 1);
-        if (index == 0) index = 1;
+        id = index.toString();
+        if (index == 0) id = '1';
         isHide = true;
       }
     });
@@ -133,8 +135,8 @@ class _NightScreenState extends State<NightTimeScreen> {
                       children: [
                         Text(
                           isHide
-                              ? '$index번 플레이어'
-                              : '${widget.playerInstances[index.toString()].job}: ${widget.playerInstances[index.toString()].abilityText}',
+                              ? '$id번 플레이어'
+                              : '${widget.playerInstances[id].job}: ${widget.playerInstances[id].abilityText}',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
@@ -167,7 +169,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                   isRunning: isRunning,
                                   totalSeconds: totalSeconds,
                                   playerInstances: widget.playerInstances,
-                                  index: index,
+                                  id: id,
                                 )
                               : Padding(
                                   padding: const EdgeInsets.all(20),
@@ -179,10 +181,8 @@ class _NightScreenState extends State<NightTimeScreen> {
                                       mainAxisSpacing: 20,
                                       childAspectRatio: 1.4,
                                     ),
-                                    itemCount: widget
-                                        .playerInstances[index.toString()]
-                                        .abilityTargets
-                                        .length,
+                                    itemCount: widget.playerInstances[id]
+                                        .abilityTargets.length,
                                     itemBuilder: (context, key) {
                                       return GestureDetector(
                                         onTap: onTabPlayerButton,
@@ -200,7 +200,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              '${widget.playerInstances[(index).toString()].abilityTargets[key]}',
+                                              '${widget.playerInstances[id].abilityTargets[key]}',
                                               textAlign: TextAlign.center,
                                             ),
                                           ),

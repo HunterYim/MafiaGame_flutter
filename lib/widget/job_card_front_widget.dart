@@ -4,11 +4,11 @@ class JobCardFrontWidget extends StatelessWidget {
   const JobCardFrontWidget({
     super.key,
     required this.playerInstances,
-    required this.index,
+    required this.id,
   });
 
   final Map<String, dynamic> playerInstances;
-  final int index;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +16,12 @@ class JobCardFrontWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Icon(
-          playerInstances[index.toString()].jobIcon,
+          playerInstances[id].jobIcon,
           size: 100,
           color: Theme.of(context).cardColor,
         ),
         Text(
-          '"${playerInstances[index.toString()].job}"',
+          '"${playerInstances[id].job}"',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         Padding(
@@ -30,7 +30,7 @@ class JobCardFrontWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              '${playerInstances[index.toString()].subText}',
+              '${playerInstances[id].subText}',
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
