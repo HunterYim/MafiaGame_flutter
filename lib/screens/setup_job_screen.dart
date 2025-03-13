@@ -101,9 +101,9 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   }
 
   void nullNameInit() {
-    for (var Id in widget.playerIds) {
-      if (widget.playerNames[Id] == '') {
-        widget.playerNames[Id] = '$Id 플레이어';
+    for (var id in widget.playerIds) {
+      if (widget.playerNames[id] == '') {
+        widget.playerNames[id] = '$id번 플레이어';
       }
     }
   }
@@ -116,9 +116,9 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   }
 
   void initMafiaSubText() {
-    for (var Id in widget.playerIds) {
-      if (playerInstances[Id].job.contains('마피아')) {
-        mafiaList.add(Id);
+    for (var id in widget.playerIds) {
+      if (playerInstances[id].job.contains('마피아')) {
+        mafiaList.add(id);
       }
     }
 
@@ -198,7 +198,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                   Row(
                     children: [
                       Text(
-                        '$id 플레이어',
+                        '$id번 플레이어',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
