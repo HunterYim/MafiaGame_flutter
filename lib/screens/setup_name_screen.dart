@@ -20,27 +20,27 @@ class SetupNameScreen extends StatefulWidget {
 
 class _SetupNameScreenState extends State<SetupNameScreen> {
   late Future<Map<String, dynamic>> startPlayerNames;
-  List<String> playerKeys = [];
+  List<String> playerIds = [];
   Map<String, dynamic> playerNames = {};
 
   Future<Map<String, dynamic>> namesAsign() async {
     Map<String, dynamic> startPlayerDataInstances = {};
-    for (var key in playerKeys) {
-      startPlayerDataInstances[key] = '$key 플레이어';
+    for (var id in playerIds) {
+      startPlayerDataInstances[id] = '$id 플레이어';
     }
     return startPlayerDataInstances;
   }
 
-  void setPlayerKeys() {
-    for (var key = 1; key <= widget.playerNum; key++) {
-      playerKeys.add(key.toString());
+  void setPlayerIds() {
+    for (var id = 1; id <= widget.playerNum; id++) {
+      playerIds.add(id.toString());
     }
   }
 
   @override
   void initState() {
     super.initState();
-    setPlayerKeys();
+    setPlayerIds();
 
     startPlayerNames = namesAsign();
   }
@@ -96,13 +96,13 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                                 ),
                                 child: Column(
                                   children: [
-                                    for (var key in snapshot.data!.keys)
+                                    for (var id in snapshot.data!.keys)
                                       NameBoxWidget(
-                                        name: playerNames[key]!,
-                                        playerNum: key,
+                                        name: playerNames[id]!,
+                                        playerNum: id,
                                         onTextChanged: (playerNum, name) {
                                           setState(() {
-                                            playerNames[key] = name;
+                                            playerNames[id] = name;
                                           });
                                         },
                                       ),
@@ -161,7 +161,7 @@ class _SetupNameScreenState extends State<SetupNameScreen> {
                                           playerNames: playerNames,
                                           playerNum: widget.playerNum,
                                           isClassic: widget.isClassic,
-                                          playerKeys: playerKeys,
+                                          playerIds: playerIds,
                                         )),
                               );
                             },

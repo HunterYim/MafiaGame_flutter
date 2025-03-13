@@ -6,12 +6,10 @@ import 'package:mafiagame/widget/job_card_back_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
 
 class NightTimeScreen extends StatefulWidget {
-  final int playerNum;
   final Map<String, dynamic> playerInstances;
 
   const NightTimeScreen({
     super.key,
-    required this.playerNum,
     required this.playerInstances,
   });
 
@@ -23,7 +21,7 @@ class _NightScreenState extends State<NightTimeScreen> {
   late String playerTeam;
 
   int day = 0;
-  int index = 1;
+  String id = '1';
   bool isHide = true;
   late Color cardColor;
 
@@ -50,11 +48,11 @@ class _NightScreenState extends State<NightTimeScreen> {
 
   void onTapCard() {
     setState(() {
-      if (widget.playerInstances[index.toString()].team == '마피아 팀') {
+      if (widget.playerInstances[id].team == '마피아 팀') {
         cardColor = Theme.of(context).focusColor;
-      } else if (widget.playerInstances[index.toString()].team == '시민 팀') {
+      } else if (widget.playerInstances[id].team == '시민 팀') {
         cardColor = Theme.of(context).highlightColor;
-      } else if (widget.playerInstances[index.toString()].team == '간첩 팀') {
+      } else if (widget.playerInstances[id].team == '간첩 팀') {
         cardColor = Theme.of(context).hintColor;
       }
 
@@ -71,8 +69,10 @@ class _NightScreenState extends State<NightTimeScreen> {
   void onTabPlayerButton() {
     setState(() {
       if (!isHide) {
-        index = (index + 1) % (widget.playerNum + 1);
-        if (index == 0) index = 1;
+        int index = int.parse(id);
+        index = (index + 1) % (widget.playerInstances.length + 1);
+        id = index.toString();
+        if (index == 0) id = '1';
         isHide = true;
       }
     });
@@ -134,10 +134,9 @@ class _NightScreenState extends State<NightTimeScreen> {
                       children: [
                         Text(
                           isHide
-                              ? '$index번 플레이어'
-                              : widget.playerInstances[index.toString()]
-                                  .abilityText,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                              ? '$id번 플레이어'
+                              : '${widget.playerInstances[id].job}: ${widget.playerInstances[id].abilityText}',
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -169,7 +168,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                   isRunning: isRunning,
                                   totalSeconds: totalSeconds,
                                   playerInstances: widget.playerInstances,
-                                  index: index,
+                                  id: id,
                                 )
                               : Padding(
                                   padding: const EdgeInsets.all(20),
@@ -181,8 +180,9 @@ class _NightScreenState extends State<NightTimeScreen> {
                                       mainAxisSpacing: 20,
                                       childAspectRatio: 1.4,
                                     ),
-                                    itemCount: widget.playerNum,
-                                    itemBuilder: (context, index) {
+                                    itemCount: widget.playerInstances[id]
+                                        .abilityTargets.length,
+                                    itemBuilder: (context, key) {
                                       return GestureDetector(
                                         onTap: onTabPlayerButton,
                                         child: Container(
@@ -199,7 +199,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              '${widget.playerInstances[(index + 1).toString()].name}',
+                                              '${widget.playerInstances[id].abilityTargets[key]}',
                                               textAlign: TextAlign.center,
                                             ),
                                           ),

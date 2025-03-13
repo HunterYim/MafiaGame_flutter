@@ -6,13 +6,13 @@ class JobCardBackWidget extends StatelessWidget {
     required this.isRunning,
     required this.totalSeconds,
     required this.playerInstances,
-    required this.index,
+    required this.id,
   });
 
   final bool isRunning;
   final int totalSeconds;
   final Map<String, dynamic> playerInstances;
-  final int index;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class JobCardBackWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            '${playerInstances[index.toString()].name}',
+            '${playerInstances[id].name}',
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
