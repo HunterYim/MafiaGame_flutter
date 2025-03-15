@@ -140,19 +140,15 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
       if (playerInstances[mainId].isAbilityUsable) {
         for (var subId in widget.playerIds) {
           if (mainId != subId) {
-            String targetName = playerInstances[subId].name;
-            playerInstances[mainId].abilityTargets.add(targetName);
+            String targetId = subId;
+            playerInstances[mainId].abilityTargets.add(targetId);
           }
         }
       }
 
       if (playerInstances[mainId].abilityTargets.isEmpty) {
-        playerInstances[mainId].abilityTargets.add('능력 사용 없음: 다음 순서로');
+        playerInstances[mainId].abilityTargets.add('0');
       }
-      if (playerInstances[mainId].job == '장의사') {
-        playerInstances[mainId].abilityTargets.add('능력을 사용할 대상 없음');
-      }
-      print(playerInstances[mainId].abilityTargets);
     }
   }
 

@@ -66,8 +66,11 @@ class _NightScreenState extends State<NightTimeScreen> {
     });
   }
 
-  void onTabPlayerButton() {
+  void onTabPlayerButton(int currentKey, String currentTarget) {
     setState(() {
+      String currentId = (currentKey + 1).toString();
+      print('$currentKey, $currentId, $currentTarget');
+
       if (!isHide) {
         int index = int.parse(id);
         index = (index + 1) % (widget.playerInstances.length + 1);
@@ -76,6 +79,55 @@ class _NightScreenState extends State<NightTimeScreen> {
         isHide = true;
       }
     });
+  }
+
+  String setCurrentTarget(int key) {
+    final targetId = widget.playerInstances[id].abilityTargets[key];
+
+    String firstTargetId = widget.playerInstances[id].abilityTargets[0];
+    String currentTarget = '';
+
+    if (firstTargetId != '0') {
+      currentTarget = widget.playerInstances[targetId].name;
+    } else if (firstTargetId == '0') {
+      currentTarget = '능력 사용 없음: 다음 순서로';
+    }
+    return currentTarget;
+  }
+
+  Future<bool?> showConfirmationDialog(
+    BuildContext context, {
+    required String message,
+  }) async {
+    return showGeneralDialog<bool>(
+      context: context,
+      transitionDuration: Duration(milliseconds: 70),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          scale: animation,
+          child: child,
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Text(message, style: Theme.of(context).textTheme.labelSmall),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('취소', style: Theme.of(context).textTheme.labelSmall),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('확인', style: Theme.of(context).textTheme.labelSmall),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -195,8 +247,20 @@ class _NightScreenState extends State<NightTimeScreen> {
                                     itemCount: widget.playerInstances[id]
                                         .abilityTargets.length,
                                     itemBuilder: (context, key) {
+                                      String currentTarget =
+                                          setCurrentTarget(key);
                                       return GestureDetector(
-                                        onTap: onTabPlayerButton,
+                                        onTap: () async {
+                                          final isConfirmed =
+                                              await showConfirmationDialog(
+                                                  context,
+                                                  message:
+                                                      "'$currentTarget'를 선택합니다.");
+                                          if (isConfirmed == true) {
+                                            onTabPlayerButton(
+                                                key, currentTarget);
+                                          }
+                                        },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 5),
@@ -211,7 +275,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              '${widget.playerInstances[id].abilityTargets[key]}',
+                                              currentTarget,
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
