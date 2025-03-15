@@ -34,7 +34,7 @@ class Mafia extends MafiaTeamPlayer {
   Mafia({
     required super.name,
     super.job = '마피아',
-    super.abilityText = '공격할 대상 선택',
+    super.abilityText = '공격을 원하는 대상 선택',
     super.subText = '',
     super.jobIcon = icon,
   });

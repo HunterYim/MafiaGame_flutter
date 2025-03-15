@@ -26,6 +26,7 @@ class GamePlayer {
 
   void die() {
     isAlive = false;
+    print('$name이 죽었습니다.');
   }
 
   void takenBySpy() {
