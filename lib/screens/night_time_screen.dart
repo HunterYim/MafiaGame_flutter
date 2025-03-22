@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mafiagame/models/game_controller.dart';
 import 'package:mafiagame/screens/day_time_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
 import 'package:mafiagame/widget/job_card_back_widget.dart';
 import 'package:mafiagame/widget/setting_bar_widget.dart';
 
 class NightTimeScreen extends StatefulWidget {
-  final Map<String, dynamic> playerInstances;
+  final GameController controller;
 
   const NightTimeScreen({
     super.key,
-    required this.playerInstances,
+    required this.controller,
   });
 
   @override
@@ -18,6 +19,9 @@ class NightTimeScreen extends StatefulWidget {
 }
 
 class _NightScreenState extends State<NightTimeScreen> {
+  late final GameController controller;
+  late final Map<String, dynamic> playerInstances;
+
   late String playerTeam;
 
   int day = 0;
@@ -48,11 +52,11 @@ class _NightScreenState extends State<NightTimeScreen> {
 
   void onTapCard() {
     setState(() {
-      if (widget.playerInstances[id].team == '마피아 팀') {
+      if (playerInstances[id].team == '마피아 팀') {
         cardColor = Theme.of(context).focusColor;
-      } else if (widget.playerInstances[id].team == '시민 팀') {
+      } else if (playerInstances[id].team == '시민 팀') {
         cardColor = Theme.of(context).highlightColor;
-      } else if (widget.playerInstances[id].team == '간첩 팀') {
+      } else if (playerInstances[id].team == '간첩 팀') {
         cardColor = Theme.of(context).hintColor;
       }
 
@@ -66,14 +70,13 @@ class _NightScreenState extends State<NightTimeScreen> {
     });
   }
 
-  void onTabPlayerButton(int currentKey, String currentTarget) {
+  void onTabPlayerButton(String currentTarget) {
     setState(() {
-      String currentId = (currentKey + 1).toString();
-      print('$currentKey, $currentId, $currentTarget');
+      print(currentTarget);
 
       if (!isHide) {
         int index = int.parse(id);
-        index = (index + 1) % (widget.playerInstances.length + 1);
+        index = (index + 1) % (playerInstances.length + 1);
         id = index.toString();
         if (index == 0) id = '1';
         isHide = true;
@@ -82,13 +85,13 @@ class _NightScreenState extends State<NightTimeScreen> {
   }
 
   String setCurrentTarget(int key) {
-    final targetId = widget.playerInstances[id].abilityTargets[key];
+    final targetId = playerInstances[id].abilityTargets[key];
 
-    String firstTargetId = widget.playerInstances[id].abilityTargets[0];
+    String firstTargetId = playerInstances[id].abilityTargets[0];
     String currentTarget = '';
 
     if (firstTargetId != '0') {
-      currentTarget = widget.playerInstances[targetId].name;
+      currentTarget = playerInstances[targetId].name;
     } else if (firstTargetId == '0') {
       currentTarget = '능력 사용 없음: 다음 순서로';
     }
@@ -134,6 +137,9 @@ class _NightScreenState extends State<NightTimeScreen> {
   void initState() {
     super.initState();
     day += 1;
+
+    controller = widget.controller;
+    playerInstances = controller.playerInstances;
   }
 
   @override
@@ -187,7 +193,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                         Text(
                           isHide
                               ? '$id번 플레이어'
-                              : '${widget.playerInstances[id].job}: ${widget.playerInstances[id].abilityText}',
+                              : '${playerInstances[id].job}: ${playerInstances[id].abilityText}',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
@@ -219,7 +225,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                               ? JobCardBackWidget(
                                   isRunning: isRunning,
                                   totalSeconds: totalSeconds,
-                                  playerInstances: widget.playerInstances,
+                                  playerInstances: playerInstances,
                                   id: id,
                                 )
                               : Padding(
@@ -227,8 +233,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                   child: GridView.builder(
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: (widget
-                                                  .playerInstances[id]
+                                      crossAxisCount: (playerInstances[id]
                                                   .abilityTargets
                                                   .length ==
                                               1)
@@ -236,16 +241,16 @@ class _NightScreenState extends State<NightTimeScreen> {
                                           : 2,
                                       crossAxisSpacing: 20,
                                       mainAxisSpacing: 20,
-                                      childAspectRatio: (widget
-                                                  .playerInstances[id]
+                                      childAspectRatio: (playerInstances[id]
                                                   .abilityTargets
                                                   .length ==
                                               1)
                                           ? 3.0
                                           : 2.0,
                                     ),
-                                    itemCount: widget.playerInstances[id]
-                                        .abilityTargets.length,
+                                    itemCount: playerInstances[id]
+                                        .abilityTargets
+                                        .length,
                                     itemBuilder: (context, key) {
                                       String currentTarget =
                                           setCurrentTarget(key);
@@ -257,8 +262,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                                                   message:
                                                       "'$currentTarget'를 선택합니다.");
                                           if (isConfirmed == true) {
-                                            onTabPlayerButton(
-                                                key, currentTarget);
+                                            onTabPlayerButton(currentTarget);
                                           }
                                         },
                                         child: Container(

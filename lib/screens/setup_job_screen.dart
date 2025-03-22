@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mafiagame/job_list.dart';
+import 'package:mafiagame/models/game_controller.dart';
 import 'package:mafiagame/screens/night_time_screen.dart';
 import 'package:mafiagame/widget/home_button_widget.dart';
 import 'package:mafiagame/widget/job_card_back_widget.dart';
@@ -31,12 +31,82 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
   late Color cardColor;
   late String playerTeam;
   List<String> mafiaList = [];
-  Map<String, dynamic> playerInstances = {};
+  late GameController controller;
+  late Map<String, dynamic> playerInstances;
 
   late Timer timer;
   bool isRunning = false;
   static const fiveSeconds = 1;
   int totalSeconds = fiveSeconds;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 빈 플레이어 이름 초기화
+    nullNameInit();
+
+    controller = GameController(
+      playerNum: widget.playerNum,
+      isClassic: widget.isClassic,
+      playerNames: widget.playerNames,
+    );
+    print('컨트롤러 생성');
+    controller.initController();
+
+    playerInstances = controller.playerInstances;
+
+    // 마피아 팀원 정보 메시지 초기화
+    initMafiaSubText();
+
+    // 직업별 능력 대상 리스트 초기화
+    initAbilityTargets();
+  }
+
+  void nullNameInit() {
+    for (var id in widget.playerIds) {
+      if (widget.playerNames[id] == '') {
+        widget.playerNames[id] = '$id번 플레이어';
+      }
+    }
+  }
+
+  void initMafiaSubText() {
+    for (var id in widget.playerIds) {
+      if (playerInstances[id].job.contains('마피아')) {
+        mafiaList.add(id);
+      }
+    }
+
+    for (var currencyMafia in mafiaList) {
+      playerInstances[currencyMafia].otherMafias =
+          mafiaList.where((mafia) => currencyMafia != mafia).toList();
+
+      playerInstances[currencyMafia].subText += '마피아는 ';
+      for (var otherMafia in playerInstances[currencyMafia].otherMafias) {
+        playerInstances[currencyMafia].subText +=
+            "'${playerInstances[otherMafia].name}' ";
+      }
+      playerInstances[currencyMafia].subText += '님 입니다';
+    }
+  }
+
+  void initAbilityTargets() {
+    for (var mainId in widget.playerIds) {
+      if (playerInstances[mainId].isAbilityUsable) {
+        for (var subId in widget.playerIds) {
+          if (mainId != subId) {
+            String targetId = subId;
+            playerInstances[mainId].abilityTargets.add(targetId);
+          }
+        }
+      }
+
+      if (playerInstances[mainId].abilityTargets.isEmpty) {
+        playerInstances[mainId].abilityTargets.add('0');
+      }
+    }
+  }
 
   void onTick(Timer timer) {
     if (totalSeconds <= 1) {
@@ -80,76 +150,6 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
         isHide = true;
       }
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // 빈 플레이어 이름 초기화
-    nullNameInit();
-    // 게임 모드에 따라 직업 랜덤 배정
-    setJobInstances();
-
-    // 마피아 팀원 정보 메시지 초기화
-    initMafiaSubText();
-
-    // 직업별 능력 대상 리스트 초기화
-    initAbilityTargets();
-
-    print(playerInstances);
-  }
-
-  void nullNameInit() {
-    for (var id in widget.playerIds) {
-      if (widget.playerNames[id] == '') {
-        widget.playerNames[id] = '$id번 플레이어';
-      }
-    }
-  }
-
-  void setJobInstances() {
-    playerInstances = SetupJobList.getPlayerInstances(
-      isClassic: widget.isClassic,
-      playerNames: widget.playerNames,
-    );
-  }
-
-  void initMafiaSubText() {
-    for (var id in widget.playerIds) {
-      if (playerInstances[id].job.contains('마피아')) {
-        mafiaList.add(id);
-      }
-    }
-
-    for (var currencyMafia in mafiaList) {
-      playerInstances[currencyMafia].otherMafias =
-          mafiaList.where((mafia) => currencyMafia != mafia).toList();
-
-      playerInstances[currencyMafia].subText += '마피아는 ';
-      for (var otherMafia in playerInstances[currencyMafia].otherMafias) {
-        playerInstances[currencyMafia].subText +=
-            "'${playerInstances[otherMafia].name}' ";
-      }
-      playerInstances[currencyMafia].subText += '님 입니다';
-    }
-  }
-
-  void initAbilityTargets() {
-    for (var mainId in widget.playerIds) {
-      if (playerInstances[mainId].isAbilityUsable) {
-        for (var subId in widget.playerIds) {
-          if (mainId != subId) {
-            String targetId = subId;
-            playerInstances[mainId].abilityTargets.add(targetId);
-          }
-        }
-      }
-
-      if (playerInstances[mainId].abilityTargets.isEmpty) {
-        playerInstances[mainId].abilityTargets.add('0');
-      }
-    }
   }
 
   @override
@@ -281,7 +281,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
                                       NightTimeScreen(
-                                        playerInstances: playerInstances,
+                                        controller: controller,
                                       )),
                             );
                           },
