@@ -30,6 +30,15 @@ class Cop extends CitizenTeamPlayer {
     super.jobIcon = icon,
     super.isAbilityUsable = true,
   });
+
+  String investigation(GamePlayer target) {
+    String job = '';
+    if (isAbilityUsable) {
+      job = target.job;
+    }
+
+    return job;
+  }
 }
 
 class Doctor extends CitizenTeamPlayer {

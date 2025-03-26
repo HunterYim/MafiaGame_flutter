@@ -72,7 +72,10 @@ class _NightScreenState extends State<NightTimeScreen> {
 
   void onTabPlayerButton(String currentTarget) {
     setState(() {
-      print(currentTarget);
+      controller.todayTargets.add(currentTarget);
+
+      print(controller.todayTargets);
+      print('타겟 직업: ${playerInstances[currentTarget].job}');
 
       if (!isHide) {
         int index = int.parse(id);
@@ -85,16 +88,18 @@ class _NightScreenState extends State<NightTimeScreen> {
   }
 
   String setCurrentTarget(int key) {
-    final targetId = playerInstances[id].abilityTargets[key];
-
+    final target = playerInstances[id].abilityTargets[key];
     String firstTargetId = playerInstances[id].abilityTargets[0];
     String currentTarget = '';
 
+    print('타겟: ${playerInstances[id].abilityTargets}');
+
     if (firstTargetId != '0') {
-      currentTarget = playerInstances[targetId].name;
+      currentTarget = target;
     } else if (firstTargetId == '0') {
-      currentTarget = '능력 사용 없음: 다음 순서로';
+      currentTarget = '0';
     }
+
     return currentTarget;
   }
 
@@ -112,6 +117,7 @@ class _NightScreenState extends State<NightTimeScreen> {
         );
       },
       pageBuilder: (context, animation, secondaryAnimation) {
+        print(widget.controller.playerInstances[id].job);
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

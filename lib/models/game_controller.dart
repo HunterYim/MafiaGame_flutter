@@ -9,6 +9,8 @@ class GameController {
   late List<String> playerIds;
   late Map<String, dynamic> playerInstances;
 
+  List<String> todayTargets = [];
+
   List<String> initPlayerIds(int playerNum) {
     List<String> playerIds = [];
     for (var idx = 1; idx <= playerNum; idx++) {

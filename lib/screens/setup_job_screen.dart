@@ -102,9 +102,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
         }
       }
 
-      if (playerInstances[mainId].abilityTargets.isEmpty) {
-        playerInstances[mainId].abilityTargets.add('0');
-      }
+      playerInstances[mainId].abilityTargets.add('0');
     }
   }
 
