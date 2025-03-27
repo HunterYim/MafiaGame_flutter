@@ -60,7 +60,7 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
     initMafiaSubText();
 
     // 직업별 능력 대상 리스트 초기화
-    initAbilityTargets();
+    initSkillTargets();
   }
 
   void nullNameInit() {
@@ -91,18 +91,18 @@ class _SetupJobScreenState extends State<SetupJobScreen> {
     }
   }
 
-  void initAbilityTargets() {
+  void initSkillTargets() {
     for (var mainId in widget.playerIds) {
-      if (playerInstances[mainId].isAbilityUsable) {
+      if (playerInstances[mainId].isSkillUsable) {
         for (var subId in widget.playerIds) {
           if (mainId != subId) {
             String targetId = subId;
-            playerInstances[mainId].abilityTargets.add(targetId);
+            playerInstances[mainId].skillTargets.add(targetId);
           }
         }
       }
 
-      playerInstances[mainId].abilityTargets.add('0');
+      playerInstances[mainId].skillTargets.add('0');
     }
   }
 

@@ -75,7 +75,9 @@ class _NightScreenState extends State<NightTimeScreen> {
       controller.todayTargets.add(currentTarget);
 
       print(controller.todayTargets);
-      print('타겟 직업: ${playerInstances[currentTarget].job}');
+      if (currentTarget != '0') {
+        print('타겟 직업: ${playerInstances[currentTarget].job}');
+      }
 
       if (!isHide) {
         int index = int.parse(id);
@@ -88,11 +90,11 @@ class _NightScreenState extends State<NightTimeScreen> {
   }
 
   String setCurrentTarget(int key) {
-    final target = playerInstances[id].abilityTargets[key];
-    String firstTargetId = playerInstances[id].abilityTargets[0];
+    final target = playerInstances[id].skillTargets[key];
+    String firstTargetId = playerInstances[id].skillTargets[0];
     String currentTarget = '';
 
-    print('타겟: ${playerInstances[id].abilityTargets}');
+    print('타겟: ${playerInstances[id].skillTargets}');
 
     if (firstTargetId != '0') {
       currentTarget = target;
@@ -199,7 +201,7 @@ class _NightScreenState extends State<NightTimeScreen> {
                         Text(
                           isHide
                               ? '$id번 플레이어'
-                              : '${playerInstances[id].job}: ${playerInstances[id].abilityText}',
+                              : '${playerInstances[id].job}: ${playerInstances[id].skillText}',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
@@ -240,23 +242,22 @@ class _NightScreenState extends State<NightTimeScreen> {
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: (playerInstances[id]
-                                                  .abilityTargets
-                                                  .length ==
-                                              1)
+                                                  .skillTargets
+                                                  .first ==
+                                              '0')
                                           ? 1
                                           : 2,
                                       crossAxisSpacing: 20,
                                       mainAxisSpacing: 20,
                                       childAspectRatio: (playerInstances[id]
-                                                  .abilityTargets
-                                                  .length ==
-                                              1)
+                                                  .skillTargets
+                                                  .first ==
+                                              '0')
                                           ? 3.0
                                           : 2.0,
                                     ),
-                                    itemCount: playerInstances[id]
-                                        .abilityTargets
-                                        .length,
+                                    itemCount:
+                                        playerInstances[id].skillTargets.length,
                                     itemBuilder: (context, key) {
                                       String currentTarget =
                                           setCurrentTarget(key);

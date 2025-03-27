@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 class GamePlayer {
-  final String name, job, team, abilityText;
+  final String name, job, team, skillText;
   String subText;
-  bool isAlive, isSpyTeam, isAbilityUsable;
+  bool isAlive, isSpyTeam, isSkillUsable;
   final IconData jobIcon;
 
-  List<String> abilityTargets = [];
-  List<String> usedAbilityTargets = [];
+  List<String> skillTargets = [];
+  List<String> usedSkillTargets = [];
 
   GamePlayer({
     required this.name,
     required this.job,
     required this.team,
-    required this.abilityText,
+    required this.skillText,
     required this.subText,
     required this.isSpyTeam,
-    required this.isAbilityUsable,
+    required this.isSkillUsable,
     required this.jobIcon,
   }) : isAlive = true;
 
@@ -32,4 +32,17 @@ class GamePlayer {
   void takenBySpy() {
     isSpyTeam = true;
   }
+}
+
+class SkillPlayer extends GamePlayer {
+  SkillPlayer({
+    required super.name,
+    required super.job,
+    required super.team,
+    required super.skillText,
+    required super.subText,
+    required super.isSpyTeam,
+    required super.jobIcon,
+    super.isSkillUsable = true,
+  });
 }

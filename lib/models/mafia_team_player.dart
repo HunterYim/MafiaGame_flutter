@@ -6,11 +6,11 @@ class MafiaTeamPlayer extends GamePlayer {
   MafiaTeamPlayer({
     required super.name,
     required super.job,
-    required super.abilityText,
+    required super.skillText,
     required super.subText,
     required super.jobIcon,
     super.isSpyTeam = false,
-    super.isAbilityUsable = true,
+    super.isSkillUsable = true,
     super.team = '마피아 팀',
   });
 }
@@ -34,7 +34,7 @@ class Mafia extends MafiaTeamPlayer {
   Mafia({
     required super.name,
     super.job = '마피아',
-    super.abilityText = '공격을 원하는 대상 선택',
+    super.skillText = '공격을 원하는 대상 선택',
     super.subText = '',
     super.jobIcon = icon,
   });
@@ -46,7 +46,7 @@ class WereWolf extends MafiaTeamPlayer {
   WereWolf({
     required super.name,
     super.job = '늑대인간',
-    super.abilityText = '접선할 대상 선택',
+    super.skillText = '접선할 대상 선택',
     super.subText = '늑대인간 소개',
     super.jobIcon = FontAwesomeIcons.wolfPackBattalion,
   });
@@ -58,7 +58,7 @@ class ShadowMan extends MafiaTeamPlayer {
   ShadowMan({
     required super.name,
     super.job = '그림자',
-    super.abilityText = '직업 조사할 대상 선택',
+    super.skillText = '직업 조사할 대상 선택',
     super.subText = '그림자 소개',
     super.jobIcon = FontAwesomeIcons.shoePrints,
   });
