@@ -2,20 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mafiagame/models/game_player.dart';
 
-class MafiaTeamPlayer extends GamePlayer {
-  MafiaTeamPlayer({
+class MafiaTeamSkillPlayer extends SkillPlayer {
+  MafiaTeamSkillPlayer({
     required super.name,
     required super.job,
+    super.team = '마피아 팀',
     required super.skillText,
     required super.subText,
-    required super.jobIcon,
     super.isSpyTeam = false,
-    super.isSkillUsable = true,
-    super.team = '마피아 팀',
+    required super.jobIcon,
   });
 }
 
-class Mafia extends MafiaTeamPlayer {
+class MafiaTeamNoneSkillPlayer extends NoneSkillPlayer {
+  MafiaTeamNoneSkillPlayer({
+    required super.name,
+    required super.job,
+    super.team = '마피아 팀',
+    required super.skillText,
+    required super.subText,
+    super.isSpyTeam = false,
+    required super.jobIcon,
+  });
+}
+
+class Mafia extends MafiaTeamSkillPlayer {
   bool isKill = false;
   List<String> otherMafias = [];
 
@@ -40,7 +51,7 @@ class Mafia extends MafiaTeamPlayer {
   });
 }
 
-class WereWolf extends MafiaTeamPlayer {
+class WereWolf extends MafiaTeamSkillPlayer {
   bool isMeet = false;
 
   WereWolf({
@@ -52,7 +63,7 @@ class WereWolf extends MafiaTeamPlayer {
   });
 }
 
-class ShadowMan extends MafiaTeamPlayer {
+class ShadowMan extends MafiaTeamSkillPlayer {
   bool isMeet = false;
 
   ShadowMan({

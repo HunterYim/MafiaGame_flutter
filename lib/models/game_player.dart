@@ -46,3 +46,16 @@ class SkillPlayer extends GamePlayer {
     super.isSkillUsable = true,
   });
 }
+
+class NoneSkillPlayer extends GamePlayer {
+  NoneSkillPlayer({
+    required super.name,
+    required super.job,
+    required super.team,
+    required super.skillText,
+    required super.subText,
+    required super.isSpyTeam,
+    required super.jobIcon,
+    super.isSkillUsable = false,
+  });
+}
